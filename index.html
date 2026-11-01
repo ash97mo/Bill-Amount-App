@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>احسب فاتورتك - WE Calculator</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f6; padding: 18px 10px; margin: 0; color: #1e293b; }
+        .card { max-width: 500px; margin: auto; background: #fff; padding: 22px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+        .title-header { text-align: center; margin-bottom: 16px; }
+        .title-header h2 { margin: 0 0 4px 0; color: #0f172a; font-size: 23px; }
+        .bill-subtitle { font-size: 13px; color: #94a3b8; font-weight: 600; direction: ltr; display: inline-flex; align-items: center; justify-content: center; }
+        .gear-o { display: inline-flex; cursor: pointer; color: #94a3b8; font-size: 13px; padding: 0 1px; transition: transform 0.3s, color 0.2s; user-select: none; }
+        .gear-o:hover { color: #2563eb; transform: rotate(90deg); }
+
+        .system-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; background: #f1f5f9; padding: 4px; border-radius: 10px; margin-bottom: 16px; }
+        .tab-btn { background: transparent; border: none; padding: 8px 4px; font-size: 13px; font-weight: 700; color: #64748b; border-radius: 7px; cursor: pointer; transition: 0.2s; }
+        .tab-btn.active { background: #fff; color: #2563eb; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+
+        label { display: block; margin-top: 12px; font-weight: 700; color: #475569; font-size: 13px; }
+        select, input[type="number"], input[type="text"] { width: 100%; padding: 9px 11px; margin-top: 4px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 13.5px; background: #fff; outline: none; transition: 0.2s; }
+        select:focus, input:focus { border-color: #2563eb; }
+
+        .radio-container { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; background: #f8fafc; padding: 4px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .radio-label { display: flex; align-items: center; justify-content: center; padding: 6px 10px; margin: 0; border-radius: 6px; cursor: pointer; font-size: 12.5px; font-weight: 700; color: #475569; transition: 0.2s; }
+        .radio-label input { display: none; }
+        .radio-label.active { background: #2563eb; color: #fff; box-shadow: 0 2px 5px rgba(37,99,235,0.25); }
+
+        .cycle-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 5px; }
+        .cycle-btn { background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 6px 2px; border-radius: 7px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; }
+        .cycle-btn.active { background: #eff6ff; border-color: #2563eb; color: #1e40af; }
+
+        .balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px; }
+        @media (max-width: 480px) { .balance-grid { grid-template-columns: 1fr; } }
+        .input-debt { border-color: #fca5a5 !important; background-color: #fffaf0 !important; color: #b91c1c; font-weight: bold; }
+
+        .btn-calc { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; font-size: 15.5px; font-weight: bold; border-radius: 8px; margin-top: 18px; cursor: pointer; box-shadow: 0 4px 10px rgba(37,99,235,0.2); }
+        .btn-calc:hover { background: #1d4ed8; }
+
+        .result-box { margin-top: 18px; background: #fff; border: 1.5px solid #e2e8f0; padding: 16px; border-radius: 10px; display: none; }
+        .result-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; white-space: nowrap; gap: 8px; }
+        .dim-red { color: #dc2626; font-weight: 700; font-size: 16.5px; }
+        .glowing-green { color: #059669; font-size: 20px; font-weight: 800; background: #ecfdf5; padding: 3px 8px; border-radius: 5px; }
+        .fraction-inline-alert { background: #fffbeb; border: 1.5px solid #f59e0b; padding: 12px; border-radius: 9px; text-align: center; color: #92400e; font-weight: bold; font-size: 14px; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 15px; }
+        .modal-card { background: #fff; width: 100%; max-width: 380px; border-radius: 14px; padding: 22px; text-align: center; border-top: 6px solid #d97706; }
+        .modal-fraction-highlight { background: #fef3c7; border: 2px dashed #f59e0b; padding: 12px; border-radius: 10px; margin: 15px 0; }
+        .modal-fraction-amount { font-size: 28px; font-weight: 900; color: #b45309; }
+        .modal-btn { background: #d97706; color: #fff; border: none; width: 100%; padding: 10px; font-size: 15px; font-weight: bold; border-radius: 7px; cursor: pointer; }
+
+        /* نافذة الآدمن */
+        .admin-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.85); backdrop-filter: blur(5px); z-index: 10000; overflow-y: auto; padding: 20px 10px; }
+        .admin-container { max-width: 880px; margin: auto; background: #fff; padding: 22px; border-radius: 14px; position: relative; }
+        .admin-close-btn { position: absolute; top: 15px; left: 15px; background: #f1f5f9; border: none; font-size: 18px; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; color: #475569; display: flex; align-items: center; justify-content: center; }
+        .admin-nav-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; background: #f1f5f9; padding: 5px; border-radius: 10px; margin: 12px 0 20px 0; }
+        .admin-nav-btn { background: transparent; border: none; padding: 9px; font-weight: 700; font-size: 13.5px; color: #475569; border-radius: 7px; cursor: pointer; }
+        .admin-nav-btn.active { background: #2563eb; color: #fff; }
+
+        .section { background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 10px; margin-bottom: 16px; }
+        .section h3 { margin: 0 0 10px 0; color: #1e40af; font-size: 14.5px; }
+        .form-grid { display: grid; grid-template-columns: 2fr 1fr 110px; gap: 8px; align-items: center; margin-bottom: 10px; }
+        .form-grid-ll { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 100px; gap: 6px; align-items: center; margin-bottom: 10px; }
+        @media (max-width: 650px) { .form-grid, .form-grid-ll { grid-template-columns: 1fr; } }
+        .btn-add { height: 38px; background: #2563eb; color: #fff; border: none; border-radius: 7px; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 7px; overflow: hidden; border: 1px solid #e2e8f0; margin-top: 6px; }
+        th, td { padding: 8px 10px; text-align: right; font-size: 12.5px; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; color: #475569; font-weight: 700; }
+        .action-cell { display: flex; gap: 5px; justify-content: center; }
+        .btn-action { width: 48px; height: 26px; border: none; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer; color: #fff; }
+        .btn-edit { background: #d97706; }
+        .btn-delete { background: #dc2626; }
+
+        .export-box { background: #fffbeb; border: 1.5px solid #fde68a; padding: 15px; border-radius: 10px; text-align: center; margin-top: 20px; }
+        .btn-group { display: flex; justify-content: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+        .btn-export { background: #d97706; color: #fff; border: none; padding: 9px 15px; border-radius: 7px; font-weight: bold; cursor: pointer; font-size: 13px; }
+        .btn-download { background: #059669; color: #fff; border: none; padding: 9px 15px; border-radius: 7px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+        .sub-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); align-items: center; justify-content: center; z-index: 10001; }
+        .sub-modal-content { background: #fff; padding: 20px; border-radius: 12px; width: 90%; max-width: 360px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="title-header">
+        <h2>احسب فاتورتك</h2>
+        <div class="bill-subtitle">
+            Bill Am<span class="gear-o" onclick="openAdminModal()" title="إدارة الأسعار">⚙</span>unt
+        </div>
+    </div>
+
+    <!-- التبديل بين الأنظمة -->
+    <div class="system-tabs">
+        <button type="button" class="tab-btn active" id="tab_internet" onclick="switchSystem('internet')">🌐 إنترنت</button>
+        <button type="button" class="tab-btn" id="tab_weone" onclick="switchSystem('weone')">📱 WE One Home</button>
+        <button type="button" class="tab-btn" id="tab_landline" onclick="switchSystem('landline')">☎️ أرضي</button>
+    </div>
+
+    <!-- 1. قسم الإنترنت -->
+    <div id="sec_internet">
+        <label>باقة الإنترنت:</label>
+        <select id="packageSelect" onchange="calculateIfVisible()">
+            <option value="0" selected>-- بدون باقة إنترنت --</option>
+        </select>
+        <div class="radio-container">
+            <label class="radio-label active" id="labelNetConsumer">
+                <input type="radio" name="accountTypeNet" id="netTypeConsumer" value="consumer" checked onchange="updateNetAccountTypeUI()">
+                👤 منزلي
+            </label>
+            <label class="radio-label" id="labelNetCommercial">
+                <input type="radio" name="accountTypeNet" id="netTypeCommercial" value="commercial" onchange="updateNetAccountTypeUI()">
+                🏢 تجاري
+            </label>
+        </div>
+    </div>
+
+    <!-- 2. قسم WE One Home -->
+    <div id="sec_weone" style="display: none;">
+        <label>باقة WE One Home:</label>
+        <select id="weOneSelect" onchange="calculateIfVisible()">
+            <option value="0" selected>-- بدون باقة WE One --</option>
+        </select>
+    </div>
+
+    <!-- 3. قسم التليفون الأرضي -->
+    <div id="sec_landline" style="display: none;">
+        <label>نوع باقة الأرضي:</label>
+        <div class="radio-container">
+            <label class="radio-label active" id="labelLLConsumer">
+                <input type="radio" name="accountTypeLL" id="llTypeConsumer" value="consumer" checked onchange="updateLLType('consumer')">
+                👤 منزلي
+            </label>
+            <label class="radio-label" id="labelLLCommercial">
+                <input type="radio" name="accountTypeLL" id="llTypeCommercial" value="commercial" onchange="updateLLType('commercial')">
+                🏢 تجاري
+            </label>
+        </div>
+
+        <label style="margin-top: 10px;">دورة الفاتورة:</label>
+        <div class="cycle-tabs">
+            <button type="button" class="cycle-btn active" id="cycle_quarter" onclick="setLLCycle('quarter')">ربع سنوي</button>
+            <button type="button" class="cycle-btn" id="cycle_month" onclick="setLLCycle('month')">شهري</button>
+            <button type="button" class="cycle-btn" id="cycle_annual" onclick="setLLCycle('annual')">سنوي</button>
+        </div>
+
+        <label style="margin-top: 10px;">باقة التليفون الأرضي:</label>
+        <select id="landlineSelect" onchange="calculateIfVisible()">
+            <option value="0" selected>-- بدون باقة أرضي --</option>
+        </select>
+    </div>
+
+    <!-- الخانات العامة -->
+    <label id="lblRouter">الروتر / ONT:</label>
+    <select id="routerSelect" onchange="calculateIfVisible()">
+        <option value="0" selected>-- بدون جهاز --</option>
+    </select>
+
+    <label>باقات إضافية:</label>
+    <select id="addonSelect" onchange="calculateIfVisible()">
+        <option value="0" selected>-- بدون باقة إضافية --</option>
+    </select>
+
+    <label>خدمات أخرى:</label>
+    <select id="serviceSelect" onchange="calculateIfVisible()">
+        <option value="0" selected>-- بدون خدمات أخرى --</option>
+    </select>
+
+    <div class="balance-grid">
+        <div>
+            <label style="color: #b91c1c;">المديونية الصافية (-):</label>
+            <input type="number" id="debtNet" class="input-debt" placeholder="مثال: -50 أو 50" oninput="calculateIfVisible()">
+        </div>
+        <div>
+            <label style="color: #047857;">الرصيد الصافي الحالي (+):</label>
+            <input type="number" id="currentBalance" value="0" min="0" step="0.01" placeholder="مثال: 15.50" oninput="calculateIfVisible()">
+        </div>
+    </div>
+    <small style="display:block; color:#64748b; font-size:11.5px; margin-top: 3px;">* المديونية الصافية تُعامل كالباقة وتُحسب عليها الضريبة تلقائياً.</small>
+
+    <button type="button" class="btn-calc" onclick="calculate()">احسب الفاتورة</button>
+
+    <!-- النتائج -->
+    <div class="result-box" id="resultBox">
+        <div class="result-item">
+            <span style="color: #64748b; font-size: 13.5px;" id="netLabelText">إجمالي الفاتورة صافي:</span>
+            <span id="totalNet" style="font-weight: 600; color: #334155;">0.00 ج.م</span>
+        </div>
+        <div class="result-item" id="debtRow" style="display: none;">
+            <span style="color: #b91c1c; font-size: 13px;">المديونية السابقة (صافي):</span>
+            <span id="debtSummary" style="font-weight: 600; color: #b91c1c;">0.00 ج.م</span>
+        </div>
+        <hr style="border:0; border-top: 1px dashed #cbd5e1; margin: 9px 0;">
+
+        <div id="standardRechargeSection">
+            <div class="result-item">
+                <span style="font-weight: 600;">المبلغ الصافي المطلوب:</span>
+                <span id="neededNet" class="dim-red">0.00 ج.م</span>
+            </div>
+            <div class="result-item" style="margin-top: 10px;">
+                <span style="font-weight: 700; font-size: 14.5px;" id="taxLabelText">المطلوب شامل الضريبة:</span>
+                <span id="cashWithTax" class="glowing-green">0.00 ج.م</span>
+            </div>
+        </div>
+
+        <div id="fractionInlineSection" style="display: none;">
+            <div class="fraction-inline-alert">
+                ⚡ لا داعي لشحن كارت كامل<br>
+                <span style="font-size: 12.5px; font-weight: normal; color: #b45309; display: block; margin-top: 3px;">المطلوب فقط إضافة بالانس فراكشن:</span>
+                <span id="inlineFractionBadge" style="font-size: 21px; color: #b45309; display: block; margin-top: 3px;">0.00 ج.م</span>
+            </div>
+        </div>
+
+        <div id="coveredSection" style="display: none; text-align: center; color: #059669; font-weight: bold; padding: 8px;">
+            ✅ الرصيد الحالي يغطي المبلغ المطلوب بالكامل ولا يلزم الشحن.
+        </div>
+    </div>
+</div>
+
+<!-- نافذة الفراكشن -->
+<div id="fractionModal" class="modal-overlay">
+    <div class="modal-card">
+        <div style="font-size: 34px; margin-bottom: 5px;">⚠️</div>
+        <div style="font-size: 17px; color: #1e293b; font-weight: 800; margin-bottom: 5px;">تنبيه شحن بالانس فراكشن</div>
+        <div style="font-size: 13px; color: #64748b; margin-bottom: 12px;">الرصيد المتبقي بسيط جداً، لا تجعل العميل يشحن كارت كامل.</div>
+        <div class="modal-fraction-highlight">
+            <div style="font-size: 13.5px; color: #92400e; font-weight: bold; margin-bottom: 3px;">ضيف للعميل بالانس فراكشن:</div>
+            <div class="modal-fraction-amount" id="modalFractionAmount">0.00 ج.م</div>
+        </div>
+        <button type="button" class="modal-btn" onclick="closeFractionModal()">حسناً</button>
+    </div>
+</div>
+
+<!-- لوحة تحكم الآدمن المدمجة -->
+<div id="adminModal" class="admin-modal-overlay">
+    <div class="admin-container">
+        <button type="button" class="admin-close-btn" onclick="closeAdminModal()">&times;</button>
+        <h2 style="margin: 0 0 5px 0; font-size: 20px; text-align: center; color: #0f172a;">لوحة التحكم في الأسعار والأنظمة</h2>
+        
+        <div class="admin-nav-tabs">
+            <button type="button" class="admin-nav-btn active" id="btnAdmin_internet" onclick="switchAdminTab('internet')">🌐 الإنترنت</button>
+            <button type="button" class="admin-nav-btn" id="btnAdmin_weone" onclick="switchAdminTab('weone')">📱 WE One Home</button>
+            <button type="button" class="admin-nav-btn" id="btnAdmin_landline" onclick="switchAdminTab('landline')">☎️ التليفون الأرضي</button>
+        </div>
+
+        <div id="adminContentContainer"></div>
+
+        <div class="export-box">
+            <h4 style="margin: 0; color: #92400e; font-size: 14.5px;">حفظ وتصدير ملف data.js لـ GitHub</h4>
+            <div class="btn-group">
+                <button type="button" class="btn-export" onclick="copyDataConfig()">📋 نسخ كود data.js</button>
+                <button type="button" class="btn-download" onclick="downloadDataFile()">📥 تحميل data.js جاهز</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة التعديل -->
+<div class="sub-modal" id="editModal">
+    <div class="sub-modal-content">
+        <h4 style="margin: 0 0 10px 0;">تعديل العنصر</h4>
+        <label style="margin-top:0;">الاسم:</label>
+        <input type="text" id="modalEditName" style="margin-bottom: 10px;">
+        <label style="margin-top:0;">السعر الصافي:</label>
+        <input type="number" id="modalEditNet">
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
+            <button type="button" class="btn-add" style="padding: 0 15px; height: 36px;" onclick="saveEdit()">حفظ</button>
+            <button type="button" style="background: #94a3b8; color:#fff; border:none; padding:0 12px; height:36px; border-radius:7px; cursor:pointer;" onclick="closeEditModal()">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<script src="data.js"></script>
+
+<script>
+    const defaultData = {
+        internet: {
+            packages: [
+                { id: 1, name: "سوبر 140 جيجا", net: 160 },
+                { id: 2, name: "سوبر 200 جيجا", net: 225 },
+                { id: 3, name: "سوبر 250 جيجا", net: 330 },
+                { id: 4, name: "ميجا 250 جيجا", net: 410 }
+            ],
+            routers: [
+                { id: 1, name: "إيجار روتر قديم", net: 5 },
+                { id: 2, name: "قسط روتر VDSL عادي", net: 30 },
+                { id: 3, name: "قسط روتر VDSL بريميوم", net: 50 },
+                { id: 4, name: "جهاز فايبر ONT (إيجار/قسط)", net: 30 }
+            ],
+            addons: [
+                { id: 1, name: "باقة 20 جيجا إضافية", net: 30 },
+                { id: 2, name: "باقة 50 جيجا إضافية", net: 60 }
+            ],
+            services: [
+                { id: 1, name: "خدمة سلفني", net: 10 },
+                { id: 2, name: "آي بي ثابت (Static IP)", net: 20 }
+            ]
+        },
+        weone: {
+            packages: [
+                { id: 1, name: "WE One Home 200", net: 200 },
+                { id: 2, name: "WE One Home 300", net: 300 },
+                { id: 3, name: "WE One Home 400", net: 400 },
+                { id: 4, name: "WE One Home 600", net: 600 }
+            ],
+            routers: [
+                { id: 1, name: "قسط روتر VDSL عادي", net: 30 },
+                { id: 2, name: "جهاز ONT فايبر", net: 30 }
+            ],
+            addons: [
+                { id: 1, name: "باقة 20 جيجا إضافية", net: 30 },
+                { id: 2, name: "باقة 50 جيجا إضافية", net: 60 }
+            ],
+            services: [
+                { id: 1, name: "خدمة سلفني", net: 10 }
+            ]
+        },
+        landline: {
+            packages: [
+                { id: 1, name: "أرضي محلي 60", net: 60, category: "consumer", cycle: "quarter" },
+                { id: 2, name: "أرضي محافظات ومحمول 105", net: 105, category: "consumer", cycle: "quarter" },
+                { id: 3, name: "WE أرضي 20", net: 20, category: "consumer", cycle: "month" },
+                { id: 4, name: "WE أرضي 35", net: 35, category: "consumer", cycle: "month" },
+                { id: 5, name: "أرضي سنوي أساسي 240", net: 240, category: "consumer", cycle: "annual" },
+                { id: 6, name: "أرضي تجاري محلي 120", net: 120, category: "commercial", cycle: "quarter" },
+                { id: 7, name: "أرضي تجاري محافظات 210", net: 210, category: "commercial", cycle: "quarter" },
+                { id: 8, name: "أرضي تجاري شهري 50", net: 50, category: "commercial", cycle: "month" },
+                { id: 9, name: "أرضي تجاري سنوي 450", net: 450, category: "commercial", cycle: "annual" }
+            ],
+            routers: [
+                { id: 1, name: "جهاز ONT فايبر (إيجار)", net: 10 },
+                { id: 2, name: "جهاز ONT فايبر (قسط شهري)", net: 30 }
+            ],
+            addons: [
+                { id: 1, name: "باقة دقائق محمول إضافية", net: 15 }
+            ],
+            services: [
+                { id: 1, name: "خدمة إظهار رقم الطالب", net: 5 }
+            ]
+        }
+    };
+
+    let loaded = JSON.parse(localStorage.getItem('netAppData')) || (typeof appConfig !== 'undefined' ? appConfig : defaultData);
+    let appData = (loaded && loaded.internet && loaded.weone && loaded.landline) ? loaded : defaultData;
+
+    let currentSystem = 'internet';
+    let currentLLCategory = 'consumer';
+    let currentLLCycle = 'quarter';
+    let currentAdminTab = 'internet';
+    let editContext = { sys: null, type: null, id: null };
+
+    // التبديل بين الأنظمة مع تصفير كامل
+    function switchSystem(sys) {
+        currentSystem = sys;
+
+        document.getElementById('tab_internet').classList.toggle('active', sys === 'internet');
+        document.getElementById('tab_weone').classList.toggle('active', sys === 'weone');
+        document.getElementById('tab_landline').classList.toggle('active', sys === 'landline');
+
+        document.getElementById('sec_internet').style.display = (sys === 'internet') ? 'block' : 'none';
+        document.getElementById('sec_weone').style.display = (sys === 'weone') ? 'block' : 'none';
+        document.getElementById('sec_landline').style.display = (sys === 'landline') ? 'block' : 'none';
+
+        document.getElementById('lblRouter').innerText = (sys === 'landline') ? 'جهاز ONT:' : 'الروتر / ONT:';
+
+        resetInputs();
+        populateDropdowns();
+    }
+
+    function resetInputs() {
+        document.getElementById('packageSelect').value = "0";
+        document.getElementById('weOneSelect').value = "0";
+        document.getElementById('landlineSelect').value = "0";
+        document.getElementById('routerSelect').value = "0";
+        document.getElementById('addonSelect').value = "0";
+        document.getElementById('serviceSelect').value = "0";
+        document.getElementById('debtNet').value = "";
+        document.getElementById('currentBalance').value = "0";
+        document.getElementById('resultBox').style.display = "none";
+
+        const rNetCon = document.getElementById('netTypeConsumer');
+        if (rNetCon) rNetCon.checked = true;
+        updateNetAccountTypeUI();
+
+        currentLLCategory = 'consumer';
+        currentLLCycle = 'quarter';
+        const rLLCon = document.getElementById('llTypeConsumer');
+        if (rLLCon) rLLCon.checked = true;
+        updateLLRadioUI();
+        updateLLCycleUI();
+    }
+
+    function updateNetAccountTypeUI() {
+        const isCom = document.getElementById('netTypeCommercial').checked;
+        document.getElementById('labelNetConsumer').classList.toggle('active', !isCom);
+        document.getElementById('labelNetCommercial').classList.toggle('active', isCom);
+        calculateIfVisible();
+    }
+
+    function updateLLType(cat) {
+        currentLLCategory = cat;
+        updateLLRadioUI();
+        populateLandlineSelect();
+        calculateIfVisible();
+    }
+
+    function updateLLRadioUI() {
+        document.getElementById('labelLLConsumer').classList.toggle('active', currentLLCategory === 'consumer');
+        document.getElementById('labelLLCommercial').classList.toggle('active', currentLLCategory === 'commercial');
+    }
+
+    function setLLCycle(cycle) {
+        currentLLCycle = cycle;
+        updateLLCycleUI();
+        populateLandlineSelect();
+        calculateIfVisible();
+    }
+
+    function updateLLCycleUI() {
+        ['quarter', 'month', 'annual'].forEach(c => {
+            const btn = document.getElementById('cycle_' + c);
+            if (btn) btn.classList.toggle('active', c === currentLLCycle);
+        });
+    }
+
+    function populateLandlineSelect() {
+        const select = document.getElementById('landlineSelect');
+        const prev = select.value;
+        let opts = '<option value="0">-- بدون باقة أرضي --</option>';
+
+        const filtered = appData.landline.packages.filter(p => p.category === currentLLCategory && p.cycle === currentLLCycle);
+        filtered.forEach(p => {
+            opts += `<option value="${p.net}">${p.name} (${p.net} ج صافي)</option>`;
+        });
+        select.innerHTML = opts;
+        select.value = prev || "0";
+    }
+
+    function populateDropdowns() {
+        // الإنترنت
+        const pSel = document.getElementById('packageSelect');
+        let pOpts = '<option value="0">-- بدون باقة إنترنت --</option>';
+        appData.internet.packages.forEach(p => { pOpts += `<option value="${p.net}">${p.name}</option>`; });
+        pSel.innerHTML = pOpts;
+
+        // WE One
+        const wSel = document.getElementById('weOneSelect');
+        let wOpts = '<option value="0">-- بدون باقة WE One --</option>';
+        appData.weone.packages.forEach(p => { wOpts += `<option value="${p.net}">${p.name} (${p.net} ج صافي)</option>`; });
+        wSel.innerHTML = wOpts;
+
+        // الأرضي
+        populateLandlineSelect();
+
+        // الروتر والخدمات الخاصة بالنظام المختار
+        const sysData = appData[currentSystem];
+
+        const rSel = document.getElementById('routerSelect');
+        let rOpts = '<option value="0">-- بدون جهاز --</option>';
+        sysData.routers.forEach(r => { rOpts += `<option value="${r.net}">${r.name} (${r.net} ج صافي)</option>`; });
+        rSel.innerHTML = rOpts;
+
+        const aSel = document.getElementById('addonSelect');
+        let aOpts = '<option value="0">-- بدون باقة إضافية --</option>';
+        sysData.addons.forEach(a => { aOpts += `<option value="${a.net}">${a.name} (${a.net} ج صافي)</option>`; });
+        aSel.innerHTML = aOpts;
+
+        const sSel = document.getElementById('serviceSelect');
+        let sOpts = '<option value="0">-- بدون خدمات أخرى --</option>';
+        sysData.services.forEach(s => { sOpts += `<option value="${s.net}">${s.name} (${s.net} ج صافي)</option>`; });
+        sSel.innerHTML = sOpts;
+    }
+
+    function calculateIfVisible() {
+        if (document.getElementById('resultBox').style.display === 'block') calculate();
+    }
+
+    function calculate() {
+        let basePkgNet = 0;
+        let taxRate = 1.14; // الافتراضي 14%
+        let isComInternet = false;
+
+        if (currentSystem === 'internet') {
+            basePkgNet = parseFloat(document.getElementById('packageSelect').value) || 0;
+            if (document.getElementById('netTypeCommercial').checked) {
+                isComInternet = true;
+                taxRate = 1.165; // 14% + 2.5% مجمعة معاً
+            }
+        } else if (currentSystem === 'weone') {
+            basePkgNet = parseFloat(document.getElementById('weOneSelect').value) || 0;
+        } else if (currentSystem === 'landline') {
+            basePkgNet = parseFloat(document.getElementById('landlineSelect').value) || 0;
+        }
+
+        const routerNet = parseFloat(document.getElementById('routerSelect').value) || 0;
+        const addonNet = parseFloat(document.getElementById('addonSelect').value) || 0;
+        const serviceNet = parseFloat(document.getElementById('serviceSelect').value) || 0;
+        const debtRaw = parseFloat(document.getElementById('debtNet').value) || 0;
+        const debtNet = Math.abs(debtRaw);
+        const balance = parseFloat(document.getElementById('currentBalance').value) || 0;
+
+        const totalNet = basePkgNet + routerNet + addonNet + serviceNet + debtNet;
+
+        if (totalNet === 0 && balance === 0) {
+            alert('يرجى اختيار باقة أو جهاز أو كتابة مديونية أولاً.');
+            return;
+        }
+
+        document.getElementById('netLabelText').innerText = isComInternet ? "إجمالي الفاتورة صافي (تجاري):" : "إجمالي الفاتورة صافي:";
+        document.getElementById('totalNet').innerText = totalNet.toFixed(2) + " ج.م";
+
+        const debtRow = document.getElementById('debtRow');
+        if (debtNet > 0) {
+            debtRow.style.display = 'flex';
+            document.getElementById('debtSummary').innerText = debtNet.toFixed(2) + " ج.م";
+        } else {
+            debtRow.style.display = 'none';
+        }
+
+        let neededNet = Math.max(0, totalNet - balance);
+        neededNet = Math.round(neededNet * 100) / 100;
+
+        const standardSec = document.getElementById('standardRechargeSection');
+        const fractionSec = document.getElementById('fractionInlineSection');
+        const coveredSec = document.getElementById('coveredSection');
+
+        if (neededNet > 0 && neededNet <= 3.00) {
+            standardSec.style.display = 'none';
+            coveredSec.style.display = 'none';
+            const suggested = (neededNet + 0.01).toFixed(2);
+            document.getElementById('inlineFractionBadge').innerText = suggested + " ج.م";
+            fractionSec.style.display = 'block';
+
+            document.getElementById('modalFractionAmount').innerText = suggested + " ج.م";
+            document.getElementById('fractionModal').style.display = 'flex';
+        } else if (neededNet === 0) {
+            standardSec.style.display = 'none';
+            fractionSec.style.display = 'none';
+            coveredSec.style.display = 'block';
+        } else {
+            fractionSec.style.display = 'none';
+            coveredSec.style.display = 'none';
+
+            const cashWithTax = Math.ceil(neededNet * taxRate * 100) / 100;
+            document.getElementById('taxLabelText').innerText = isComInternet ? "المطلوب شامل الضريبة (تجاري):" : "المطلوب شامل الضريبة:";
+            document.getElementById('neededNet').innerText = neededNet.toFixed(2) + " ج.م";
+            document.getElementById('cashWithTax').innerText = cashWithTax.toFixed(2) + " ج.م";
+            standardSec.style.display = 'block';
+        }
+
+        document.getElementById('resultBox').style.display = 'block';
+    }
+
+    function closeFractionModal() {
+        document.getElementById('fractionModal').style.display = 'none';
+    }
+
+    // ================= دوال لوحة التحكم =================
+    function openAdminModal() {
+        renderAdmin();
+        document.getElementById('adminModal').style.display = 'block';
+    }
+
+    function closeAdminModal() {
+        document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function switchAdminTab(sys) {
+        currentAdminTab = sys;
+        ['internet', 'weone', 'landline'].forEach(s => {
+            document.getElementById('btnAdmin_' + s).classList.toggle('active', s === sys);
+        });
+        renderAdmin();
+    }
+
+    function renderAdmin() {
+        const container = document.getElementById('adminContentContainer');
+        const sys = currentAdminTab;
+        const d = appData[sys];
+
+        let html = '';
+
+        // 1. الباقات
+        if (sys === 'landline') {
+            html += `
+            <div class="section">
+                <h3>☎️ باقات التليفون الأرضي</h3>
+                <div class="form-grid-ll">
+                    <input type="text" id="add_ll_name" placeholder="اسم الباقة">
+                    <select id="add_ll_cat"><option value="consumer">منزلي</option><option value="commercial">تجاري</option></select>
+                    <select id="add_ll_cycle"><option value="quarter">ربع سنوي</option><option value="month">شهري</option><option value="annual">سنوي</option></select>
+                    <input type="number" id="add_ll_net" placeholder="صافي">
+                    <button type="button" class="btn-add" onclick="addLandlineAdmin()">إضافة</button>
+                </div>
+                <table>
+                    <thead><tr><th>الباقة</th><th>النوع</th><th>الدورة</th><th>صافي</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
+                    <tbody>${renderLandlineRows(d.packages)}</tbody>
+                </table>
+            </div>`;
+        } else {
+            const title = (sys === 'internet') ? '🌐 باقات الإنترنت' : '📱 باقات WE One Home';
+            html += `
+            <div class="section">
+                <h3>${title}</h3>
+                <div class="form-grid">
+                    <input type="text" id="add_pkg_name" placeholder="اسم الباقة">
+                    <input type="number" id="add_pkg_net" placeholder="السعر صافي">
+                    <button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'packages', 'add_pkg_name', 'add_pkg_net')">إضافة</button>
+                </div>
+                <table>
+                    <thead><tr><th>الباقة</th><th>صافي</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
+                    <tbody>${renderSimpleRows(sys, 'packages', d.packages)}</tbody>
+                </table>
+            </div>`;
+        }
+
+        // 2. أجهزة الروتر / ONT
+        const deviceTitle = (sys === 'landline') ? '📡 أجهزة ONT (للأرضي)' : '📡 أجهزة الروتر / ONT';
+        html += `
+        <div class="section">
+            <h3>${deviceTitle}</h3>
+            <div class="form-grid">
+                <input type="text" id="add_dev_name" placeholder="اسم الجهاز">
+                <input type="number" id="add_dev_net" placeholder="السعر صافي">
+                <button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'routers', 'add_dev_name', 'add_dev_net')">إضافة</button>
+            </div>
+            <table>
+                <thead><tr><th>الجهاز</th><th>صافي</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
+                <tbody>${renderSimpleRows(sys, 'routers', d.routers)}</tbody>
+            </table>
+        </div>`;
+
+        // 3. الباقات الإضافية
+        html += `
+        <div class="section">
+            <h3>➕ باقات إضافية</h3>
+            <div class="form-grid">
+                <input type="text" id="add_adn_name" placeholder="اسم الباقة الإضافية">
+                <input type="number" id="add_adn_net" placeholder="السعر صافي">
+                <button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'addons', 'add_adn_name', 'add_adn_net')">إضافة</button>
+            </div>
+            <table>
+                <thead><tr><th>الباقة</th><th>صافي</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
+                <tbody>${renderSimpleRows(sys, 'addons', d.addons)}</tbody>
+            </table>
+        </div>`;
+
+        // 4. خدمات أخرى
+        html += `
+        <div class="section">
+            <h3>⚙️ خدمات أخرى</h3>
+            <div class="form-grid">
+                <input type="text" id="add_srv_name" placeholder="اسم الخدمة">
+                <input type="number" id="add_srv_net" placeholder="السعر صافي">
+                <button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'services', 'add_srv_name', 'add_srv_net')">إضافة</button>
+            </div>
+            <table>
+                <thead><tr><th>الخدمة</th><th>صافي</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
+                <tbody>${renderSimpleRows(sys, 'services', d.services)}</tbody>
+            </table>
+        </div>`;
+
+        container.innerHTML = html;
+    }
+
+    function renderSimpleRows(sys, type, items) {
+        if (!items || !items.length) return '<tr><td colspan="4" style="text-align:center; color:#94a3b8;">لا توجد عناصر</td></tr>';
+        return items.map(i => `
+            <tr>
+                <td><strong>${i.name}</strong></td>
+                <td>${i.net} ج.م</td>
+                <td>${(i.net * 1.14).toFixed(2)} ج.م</td>
+                <td>
+                    <div class="action-cell">
+                        <button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', '${type}', ${i.id})">تعديل</button>
+                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', '${type}', ${i.id})">حذف</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function renderLandlineRows(items) {
+        if (!items || !items.length) return '<tr><td colspan="6" style="text-align:center; color:#94a3b8;">لا توجد عناصر</td></tr>';
+        const cycleNames = { quarter: 'ربع سنوي', month: 'شهري', annual: 'سنوي' };
+        return items.map(i => `
+            <tr>
+                <td><strong>${i.name}</strong></td>
+                <td><span style="font-size:11px;">${i.category === 'commercial' ? 'تجاري' : 'منزلي'}</span></td>
+                <td><span style="font-size:11px;">${cycleNames[i.cycle] || i.cycle}</span></td>
+                <td>${i.net} ج.م</td>
+                <td>${(i.net * 1.14).toFixed(2)} ج.م</td>
+                <td>
+                    <div class="action-cell">
+                        <button type="button" class="btn-action btn-edit" onclick="openEdit('landline', 'packages', ${i.id})">تعديل</button>
+                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('landline', 'packages', ${i.id})">حذف</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function addSimpleAdmin(sys, type, nameId, netId) {
+        const name = document.getElementById(nameId).value.trim();
+        const net = parseFloat(document.getElementById(netId).value);
+        if (!name || isNaN(net)) return alert('يرجى كتابة الاسم والسعر بشكل صحيح.');
+
+        appData[sys][type].push({ id: Date.now(), name, net });
+        saveAndSync();
+    }
+
+    function addLandlineAdmin() {
+        const name = document.getElementById('add_ll_name').value.trim();
+        const cat = document.getElementById('add_ll_cat').value;
+        const cycle = document.getElementById('add_ll_cycle').value;
+        const net = parseFloat(document.getElementById('add_ll_net').value);
+        if (!name || isNaN(net)) return alert('يرجى ملء جميع البيانات بشكل صحيح.');
+
+        appData.landline.packages.push({ id: Date.now(), name, net, category: cat, cycle });
+        saveAndSync();
+    }
+
+    function deleteAdmin(sys, type, id) {
+        if (!confirm('هل أنت متأكد من الحذف؟')) return;
+        appData[sys][type] = appData[sys][type].filter(i => i.id !== id);
+        saveAndSync();
+    }
+
+    function openEdit(sys, type, id) {
+        const item = appData[sys][type].find(i => i.id === id);
+        if (!item) return;
+        editContext = { sys, type, id };
+        document.getElementById('modalEditName').value = item.name;
+        document.getElementById('modalEditNet').value = item.net;
+        document.getElementById('editModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+        editContext = { sys: null, type: null, id: null };
+    }
+
+    function saveEdit() {
+        const name = document.getElementById('modalEditName').value.trim();
+        const net = parseFloat(document.getElementById('modalEditNet').value);
+        if (!name || isNaN(net)) return alert('يرجى إدخال بيانات صحيحة.');
+
+        const item = appData[editContext.sys][editContext.type].find(i => i.id === editContext.id);
+        if (item) {
+            item.name = name;
+            item.net = net;
+            saveAndSync();
+            closeEditModal();
+        }
+    }
+
+    function saveAndSync() {
+        localStorage.setItem('netAppData', JSON.stringify(appData));
+        renderAdmin();
+        populateDropdowns();
+    }
+
+    function getFormattedJS() {
+        return "const appConfig = " + JSON.stringify(appData, null, 2) + ";";
+    }
+
+    function copyDataConfig() {
+        navigator.clipboard.writeText(getFormattedJS()).then(() => alert("تم نسخ الكود بنجاح! الصقه في data.js على GitHub."));
+    }
+
+    function downloadDataFile() {
+        const blob = new Blob([getFormattedJS()], { type: 'text/javascript' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'data.js';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // بدء التشغيل
+    populateDropdowns();
+</script>
+
+</body>
+</html>
