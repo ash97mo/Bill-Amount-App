@@ -22,14 +22,16 @@
         select, input[type="number"], input[type="text"] { width: 100%; padding: 9px 11px; margin-top: 4px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 13.5px; background: #fff; outline: none; transition: 0.2s; }
         select:focus, input:focus { border-color: #2563eb; }
 
+        .sub-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
+        .sub-btn { background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 6px 2px; border-radius: 7px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; }
+        .sub-btn.active { background: #eff6ff; border-color: #2563eb; color: #1e40af; }
+
         .radio-container { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; background: #f8fafc; padding: 4px; border-radius: 8px; border: 1px solid #e2e8f0; }
         .radio-label { display: flex; align-items: center; justify-content: center; padding: 6px 10px; margin: 0; border-radius: 6px; cursor: pointer; font-size: 12.5px; font-weight: 700; color: #475569; transition: 0.2s; }
         .radio-label input { display: none; }
         .radio-label.active { background: #2563eb; color: #fff; box-shadow: 0 2px 5px rgba(37,99,235,0.25); }
 
-        .cycle-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 5px; }
-        .cycle-btn { background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 6px 2px; border-radius: 7px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; }
-        .cycle-btn.active { background: #eff6ff; border-color: #2563eb; color: #1e40af; }
+        .cycle-tabs-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 5px; }
 
         .balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px; }
         @media (max-width: 480px) { .balance-grid { grid-template-columns: 1fr; } }
@@ -61,8 +63,9 @@
         .section { background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 10px; margin-bottom: 16px; }
         .section h3 { margin: 0 0 10px 0; color: #1e40af; font-size: 14.5px; }
         .form-grid { display: grid; grid-template-columns: 2fr 1fr 110px; gap: 8px; align-items: center; margin-bottom: 10px; }
+        .form-grid-cycle { display: grid; grid-template-columns: 2fr 1fr 1fr 100px; gap: 6px; align-items: center; margin-bottom: 10px; }
         .form-grid-ll { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 100px; gap: 6px; align-items: center; margin-bottom: 10px; }
-        @media (max-width: 650px) { .form-grid, .form-grid-ll { grid-template-columns: 1fr; } }
+        @media (max-width: 650px) { .form-grid, .form-grid-cycle, .form-grid-ll { grid-template-columns: 1fr; } }
         .btn-add { height: 38px; background: #2563eb; color: #fff; border: none; border-radius: 7px; font-size: 12.5px; font-weight: 700; cursor: pointer; }
 
         table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 7px; overflow: hidden; border: 1px solid #e2e8f0; margin-top: 6px; }
@@ -101,7 +104,13 @@
 
     <!-- 1. قسم الإنترنت -->
     <div id="sec_internet">
-        <label>باقة الإنترنت:</label>
+        <label>دورة الباقة:</label>
+        <div class="sub-tabs">
+            <button type="button" class="sub-btn active" id="netCycle_month" onclick="setNetCycle('month')">باقات شهرية</button>
+            <button type="button" class="sub-btn" id="netCycle_annual" onclick="setNetCycle('annual')">باقات سنوية</button>
+        </div>
+
+        <label style="margin-top: 10px;">باقة الإنترنت:</label>
         <select id="packageSelect" onchange="calculateIfVisible()">
             <option value="0" selected>-- بدون باقة إنترنت --</option>
         </select>
@@ -119,7 +128,13 @@
 
     <!-- 2. قسم WE One Home -->
     <div id="sec_weone" style="display: none;">
-        <label>باقة WE One Home:</label>
+        <label>دورة الباقة:</label>
+        <div class="sub-tabs">
+            <button type="button" class="sub-btn active" id="weCycle_month" onclick="setWeOneCycle('month')">باقات شهرية</button>
+            <button type="button" class="sub-btn" id="weCycle_annual" onclick="setWeOneCycle('annual')">باقات سنوية</button>
+        </div>
+
+        <label style="margin-top: 10px;">باقة WE One Home:</label>
         <select id="weOneSelect" onchange="calculateIfVisible()">
             <option value="0" selected>-- بدون باقة WE One --</option>
         </select>
@@ -140,10 +155,10 @@
         </div>
 
         <label style="margin-top: 10px;">دورة الفاتورة:</label>
-        <div class="cycle-tabs">
-            <button type="button" class="cycle-btn active" id="cycle_quarter" onclick="setLLCycle('quarter')">ربع سنوي</button>
-            <button type="button" class="cycle-btn" id="cycle_month" onclick="setLLCycle('month')">شهري</button>
-            <button type="button" class="cycle-btn" id="cycle_annual" onclick="setLLCycle('annual')">سنوي</button>
+        <div class="cycle-tabs-3">
+            <button type="button" class="sub-btn active" id="cycle_quarter" onclick="setLLCycle('quarter')">ربع سنوي</button>
+            <button type="button" class="sub-btn" id="cycle_month" onclick="setLLCycle('month')">شهري</button>
+            <button type="button" class="sub-btn" id="cycle_annual" onclick="setLLCycle('annual')">سنوي</button>
         </div>
 
         <label style="margin-top: 10px;">باقة التليفون الأرضي:</label>
@@ -262,7 +277,25 @@
     <div class="sub-modal-content">
         <h4 style="margin: 0 0 10px 0;">تعديل العنصر</h4>
         <label style="margin-top:0;">الاسم:</label>
-        <input type="text" id="modalEditName" style="margin-bottom: 10px;">
+        <input type="text" id="modalEditName" style="margin-bottom: 8px;">
+        
+        <div id="modalCycleBox" style="display:none; margin-bottom: 8px;">
+            <label style="margin-top:0;">الدورة:</label>
+            <select id="modalEditCycle" style="margin-top:4px;">
+                <option value="month">شهري</option>
+                <option value="annual">سنوي</option>
+                <option value="quarter">ربع سنوي</option>
+            </select>
+        </div>
+
+        <div id="modalCatBox" style="display:none; margin-bottom: 8px;">
+            <label style="margin-top:0;">النوع:</label>
+            <select id="modalEditCat" style="margin-top:4px;">
+                <option value="consumer">منزلي</option>
+                <option value="commercial">تجاري</option>
+            </select>
+        </div>
+
         <label style="margin-top:0;">السعر الصافي:</label>
         <input type="number" id="modalEditNet">
         <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
@@ -278,10 +311,12 @@
     const defaultData = {
         internet: {
             packages: [
-                { id: 1, name: "سوبر 140 جيجا", net: 160 },
-                { id: 2, name: "سوبر 200 جيجا", net: 225 },
-                { id: 3, name: "سوبر 250 جيجا", net: 330 },
-                { id: 4, name: "ميجا 250 جيجا", net: 410 }
+                { id: 1, name: "سوبر 140 جيجا", net: 160, cycle: "month" },
+                { id: 2, name: "سوبر 200 جيجا", net: 225, cycle: "month" },
+                { id: 3, name: "سوبر 250 جيجا", net: 330, cycle: "month" },
+                { id: 4, name: "ميجا 250 جيجا", net: 410, cycle: "month" },
+                { id: 5, name: "سوبر 140 سنوي", net: 1920, cycle: "annual" },
+                { id: 6, name: "سوبر 250 سنوي", net: 3960, cycle: "annual" }
             ],
             routers: [
                 { id: 1, name: "إيجار روتر قديم", net: 5 },
@@ -300,10 +335,12 @@
         },
         weone: {
             packages: [
-                { id: 1, name: "WE One Home 200", net: 200 },
-                { id: 2, name: "WE One Home 300", net: 300 },
-                { id: 3, name: "WE One Home 400", net: 400 },
-                { id: 4, name: "WE One Home 600", net: 600 }
+                { id: 1, name: "WE One Home 200", net: 200, cycle: "month" },
+                { id: 2, name: "WE One Home 300", net: 300, cycle: "month" },
+                { id: 3, name: "WE One Home 400", net: 400, cycle: "month" },
+                { id: 4, name: "WE One Home 600", net: 600, cycle: "month" },
+                { id: 5, name: "WE One Home 200 سنوي", net: 2400, cycle: "annual" },
+                { id: 6, name: "WE One Home 400 سنوي", net: 4800, cycle: "annual" }
             ],
             routers: [
                 { id: 1, name: "قسط روتر VDSL عادي", net: 30 },
@@ -346,6 +383,8 @@
     let appData = (loaded && loaded.internet && loaded.weone && loaded.landline) ? loaded : defaultData;
 
     let currentSystem = 'internet';
+    let currentNetCycle = 'month';
+    let currentWeOneCycle = 'month';
     let currentLLCategory = 'consumer';
     let currentLLCycle = 'quarter';
     let currentAdminTab = 'internet';
@@ -380,6 +419,12 @@
         document.getElementById('currentBalance').value = "0";
         document.getElementById('resultBox').style.display = "none";
 
+        currentNetCycle = 'month';
+        setNetCycle('month');
+
+        currentWeOneCycle = 'month';
+        setWeOneCycle('month');
+
         const rNetCon = document.getElementById('netTypeConsumer');
         if (rNetCon) rNetCon.checked = true;
         updateNetAccountTypeUI();
@@ -390,6 +435,22 @@
         if (rLLCon) rLLCon.checked = true;
         updateLLRadioUI();
         updateLLCycleUI();
+    }
+
+    function setNetCycle(cycle) {
+        currentNetCycle = cycle;
+        document.getElementById('netCycle_month').classList.toggle('active', cycle === 'month');
+        document.getElementById('netCycle_annual').classList.toggle('active', cycle === 'annual');
+        populateInternetSelect();
+        calculateIfVisible();
+    }
+
+    function setWeOneCycle(cycle) {
+        currentWeOneCycle = cycle;
+        document.getElementById('weCycle_month').classList.toggle('active', cycle === 'month');
+        document.getElementById('weCycle_annual').classList.toggle('active', cycle === 'annual');
+        populateWeOneSelect();
+        calculateIfVisible();
     }
 
     function updateNetAccountTypeUI() {
@@ -425,6 +486,26 @@
         });
     }
 
+    function populateInternetSelect() {
+        const pSel = document.getElementById('packageSelect');
+        const prev = pSel.value;
+        let pOpts = '<option value="0">-- بدون باقة إنترنت --</option>';
+        const filtered = appData.internet.packages.filter(p => (p.cycle || 'month') === currentNetCycle);
+        filtered.forEach(p => { pOpts += `<option value="${p.net}">${p.name} (${p.net} ج صافي)</option>`; });
+        pSel.innerHTML = pOpts;
+        pSel.value = prev || "0";
+    }
+
+    function populateWeOneSelect() {
+        const wSel = document.getElementById('weOneSelect');
+        const prev = wSel.value;
+        let wOpts = '<option value="0">-- بدون باقة WE One --</option>';
+        const filtered = appData.weone.packages.filter(p => (p.cycle || 'month') === currentWeOneCycle);
+        filtered.forEach(p => { wOpts += `<option value="${p.net}">${p.name} (${p.net} ج صافي)</option>`; });
+        wSel.innerHTML = wOpts;
+        wSel.value = prev || "0";
+    }
+
     function populateLandlineSelect() {
         const select = document.getElementById('landlineSelect');
         const prev = select.value;
@@ -439,22 +520,10 @@
     }
 
     function populateDropdowns() {
-        // الإنترنت
-        const pSel = document.getElementById('packageSelect');
-        let pOpts = '<option value="0">-- بدون باقة إنترنت --</option>';
-        appData.internet.packages.forEach(p => { pOpts += `<option value="${p.net}">${p.name}</option>`; });
-        pSel.innerHTML = pOpts;
-
-        // WE One
-        const wSel = document.getElementById('weOneSelect');
-        let wOpts = '<option value="0">-- بدون باقة WE One --</option>';
-        appData.weone.packages.forEach(p => { wOpts += `<option value="${p.net}">${p.name} (${p.net} ج صافي)</option>`; });
-        wSel.innerHTML = wOpts;
-
-        // الأرضي
+        populateInternetSelect();
+        populateWeOneSelect();
         populateLandlineSelect();
 
-        // الروتر والخدمات الخاصة بالنظام المختار
         const sysData = appData[currentSystem];
 
         const rSel = document.getElementById('routerSelect');
@@ -479,14 +548,14 @@
 
     function calculate() {
         let basePkgNet = 0;
-        let taxRate = 1.14; // الافتراضي 14%
         let isComInternet = false;
 
         if (currentSystem === 'internet') {
             basePkgNet = parseFloat(document.getElementById('packageSelect').value) || 0;
             if (document.getElementById('netTypeCommercial').checked) {
                 isComInternet = true;
-                taxRate = 1.165; // 14% + 2.5% مجمعة معاً
+                // احتساب 2.5% على الصافي أولاً
+                basePkgNet = basePkgNet * 1.025;
             }
         } else if (currentSystem === 'weone') {
             basePkgNet = parseFloat(document.getElementById('weOneSelect').value) || 0;
@@ -543,7 +612,8 @@
             fractionSec.style.display = 'none';
             coveredSec.style.display = 'none';
 
-            const cashWithTax = Math.ceil(neededNet * taxRate * 100) / 100;
+            // احتساب ضريبة الـ 14% فوق المبلغ المطلوب
+            const cashWithTax = Math.ceil(neededNet * 1.14 * 100) / 100;
             document.getElementById('taxLabelText').innerText = isComInternet ? "المطلوب شامل الضريبة (تجاري):" : "المطلوب شامل الضريبة:";
             document.getElementById('neededNet').innerText = neededNet.toFixed(2) + " ج.م";
             document.getElementById('cashWithTax').innerText = cashWithTax.toFixed(2) + " ج.م";
@@ -604,14 +674,18 @@
             html += `
             <div class="section">
                 <h3>${title}</h3>
-                <div class="form-grid">
+                <div class="form-grid-cycle">
                     <input type="text" id="add_pkg_name" placeholder="اسم الباقة">
+                    <select id="add_pkg_cycle">
+                        <option value="month">شهري</option>
+                        <option value="annual">سنوي</option>
+                    </select>
                     <input type="number" id="add_pkg_net" placeholder="السعر صافي">
-                    <button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'packages', 'add_pkg_name', 'add_pkg_net')">إضافة</button>
+                    <button type="button" class="btn-add" onclick="addCyclePkgAdmin('${sys}')">إضافة</button>
                 </div>
                 <table>
-                    <thead><tr><th>الباقة</th><th>صافي</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
-                    <tbody>${renderSimpleRows(sys, 'packages', d.packages)}</tbody>
+                    <thead><tr><th>الباقة</th><th>الدورة</th><th>صافي</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
+                    <tbody>${renderCyclePkgRows(sys, d.packages)}</tbody>
                 </table>
             </div>`;
         }
@@ -682,6 +756,24 @@
         `).join('');
     }
 
+    function renderCyclePkgRows(sys, items) {
+        if (!items || !items.length) return '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
+        return items.map(i => `
+            <tr>
+                <td><strong>${i.name}</strong></td>
+                <td><span style="font-size:11px;">${(i.cycle === 'annual') ? 'سنوي' : 'شهري'}</span></td>
+                <td>${i.net} ج.م</td>
+                <td>${(i.net * 1.14).toFixed(2)} ج.م</td>
+                <td>
+                    <div class="action-cell">
+                        <button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', 'packages', ${i.id})">تعديل</button>
+                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', 'packages', ${i.id})">حذف</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
     function renderLandlineRows(items) {
         if (!items || !items.length) return '<tr><td colspan="6" style="text-align:center; color:#94a3b8;">لا توجد عناصر</td></tr>';
         const cycleNames = { quarter: 'ربع سنوي', month: 'شهري', annual: 'سنوي' };
@@ -711,6 +803,16 @@
         saveAndSync();
     }
 
+    function addCyclePkgAdmin(sys) {
+        const name = document.getElementById('add_pkg_name').value.trim();
+        const cycle = document.getElementById('add_pkg_cycle').value;
+        const net = parseFloat(document.getElementById('add_pkg_net').value);
+        if (!name || isNaN(net)) return alert('يرجى ملء الاسم والسعر بشكل صحيح.');
+
+        appData[sys].packages.push({ id: Date.now(), name, net, cycle });
+        saveAndSync();
+    }
+
     function addLandlineAdmin() {
         const name = document.getElementById('add_ll_name').value.trim();
         const cat = document.getElementById('add_ll_cat').value;
@@ -734,6 +836,24 @@
         editContext = { sys, type, id };
         document.getElementById('modalEditName').value = item.name;
         document.getElementById('modalEditNet').value = item.net;
+
+        const cycleBox = document.getElementById('modalCycleBox');
+        const catBox = document.getElementById('modalCatBox');
+
+        if (type === 'packages') {
+            cycleBox.style.display = 'block';
+            document.getElementById('modalEditCycle').value = item.cycle || 'month';
+            if (sys === 'landline') {
+                catBox.style.display = 'block';
+                document.getElementById('modalEditCat').value = item.category || 'consumer';
+            } else {
+                catBox.style.display = 'none';
+            }
+        } else {
+            cycleBox.style.display = 'none';
+            catBox.style.display = 'none';
+        }
+
         document.getElementById('editModal').style.display = 'flex';
     }
 
@@ -751,6 +871,12 @@
         if (item) {
             item.name = name;
             item.net = net;
+            if (editContext.type === 'packages') {
+                item.cycle = document.getElementById('modalEditCycle').value;
+                if (editContext.sys === 'landline') {
+                    item.category = document.getElementById('modalEditCat').value;
+                }
+            }
             saveAndSync();
             closeEditModal();
         }
