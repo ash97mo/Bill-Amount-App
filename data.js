@@ -37,10 +37,45 @@ const appConfig = {
         "cycle": "month"
       },
       {
+        "id": 1793591809729,
+        "name": "سوبر 750 جيجا",
+        "net": 925,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
         "id": 1793586316808,
         "name": "سوبر 1500 جيجا",
         "net": 1650,
         "cycle": "month"
+      },
+      {
+        "id": 1793591677846,
+        "name": "ميجا 250 جيجا",
+        "net": 590,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793591714351,
+        "name": "ميجا 500 جيجا",
+        "net": 900,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793591743017,
+        "name": "ميجا 750 جيجا",
+        "net": 1175,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793591772335,
+        "name": "ميجا 1500 جيجا",
+        "net": 2000,
+        "cycle": "month",
+        "fractionLimit": 3
       }
     ],
     "routers": [
