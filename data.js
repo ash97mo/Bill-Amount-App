@@ -76,6 +76,62 @@ const appConfig = {
         "net": 2000,
         "cycle": "month",
         "fractionLimit": 3
+      },
+      {
+        "id": 1793636638020,
+        "name": "سوبر 1800 جيجا",
+        "net": 3120,
+        "cycle": "annual",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793636669448,
+        "name": "سوبر 2400 جيجا",
+        "net": 3960,
+        "cycle": "annual",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793636690905,
+        "name": "سوبر 3000 جيجا",
+        "net": 4345,
+        "cycle": "annual",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793636811527,
+        "name": "سوبر 3600 جيجا",
+        "net": 5060,
+        "cycle": "annual",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793641703925,
+        "name": "سوبر 4800 جيجا",
+        "net": 6380,
+        "cycle": "annual",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793641728336,
+        "name": "سوبر 6000 جيجا",
+        "net": 6930,
+        "cycle": "annual",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793641751074,
+        "name": "سوبر 9000 جيجا",
+        "net": 9715,
+        "cycle": "annual",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793641783025,
+        "name": "سوبر 18 تيرا",
+        "net": 16500,
+        "cycle": "annual",
+        "fractionLimit": 3
       }
     ],
     "routers": [
@@ -151,7 +207,127 @@ const appConfig = {
     ]
   },
   "weone": {
-    "packages": [],
+    "packages": [
+      {
+        "id": 1793642832378,
+        "name": "Super (150GB + 600Min)",
+        "net": 300,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793642881812,
+        "name": "Super (200GB + 600Min)",
+        "net": 370,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793642952443,
+        "name": "Super (250GB + 600Min)",
+        "net": 435,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793642993688,
+        "name": "Super (300GB + 600Min)",
+        "net": 500,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643031414,
+        "name": "Super (400GB + 600Min)",
+        "net": 620,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643464000,
+        "name": "Super (500GB + 600Min)",
+        "net": 700,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643496976,
+        "name": "Super (750GB + 600Min)",
+        "net": 965,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643536879,
+        "name": "Super (1500GB + 600Min)",
+        "net": 1690,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643662732,
+        "name": "Mega (250GB + 600Min)",
+        "net": 630,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643697005,
+        "name": "Mega (500GB + 600Min)",
+        "net": 940,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643737715,
+        "name": "Mega (750GB + 600Min)",
+        "net": 1215,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793643820199,
+        "name": "Mega (1500GB + 600Min)",
+        "net": 2040,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793644846371,
+        "name": "Ultra (250GB + 600Min)",
+        "net": 825,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793644899452,
+        "name": "Ultra (500GB + 600Min)",
+        "net": 1190,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793644930053,
+        "name": "Ultra (750GB + 600Min)",
+        "net": 1465,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793644976841,
+        "name": "Max SV (1500GB + 600Min)",
+        "net": 2390,
+        "cycle": "month",
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793645035255,
+        "name": "Max+ (1500GB + 600Min)",
+        "net": 2740,
+        "cycle": "month",
+        "fractionLimit": 3
+      }
+    ],
     "routers": [
       {
         "id": 2,
@@ -270,6 +446,78 @@ const appConfig = {
         "net": 960,
         "category": "consumer",
         "cycle": "annual"
+      },
+      {
+        "id": 1793645519874,
+        "name": "Kalamy 40",
+        "net": 40,
+        "category": "consumer",
+        "cycle": "month",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793645672866,
+        "name": "Kalamy 40",
+        "net": 120,
+        "category": "consumer",
+        "cycle": "quarter",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793645759054,
+        "name": "Marhaba",
+        "net": 300,
+        "category": "consumer",
+        "cycle": "annual",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793646009522,
+        "name": "WE Ardy Business 65",
+        "net": 65,
+        "category": "commercial",
+        "cycle": "month",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793646029192,
+        "name": "WE Ardy Business 90",
+        "net": 90,
+        "category": "consumer",
+        "cycle": "month",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793646055519,
+        "name": "WE Ardy Business 65",
+        "net": 195,
+        "category": "consumer",
+        "cycle": "quarter",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793646075048,
+        "name": "WE Ardy Business 90",
+        "net": 270,
+        "category": "consumer",
+        "cycle": "quarter",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793646130445,
+        "name": "Governmental 60",
+        "net": 180,
+        "category": "consumer",
+        "cycle": "quarter",
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793646397348,
+        "name": "Governmental 60",
+        "net": 60,
+        "category": "consumer",
+        "cycle": "month",
+        "fractionLimit": 0
       }
     ],
     "routers": [
