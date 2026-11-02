@@ -483,7 +483,7 @@ const appConfig = {
         "id": 1793646029192,
         "name": "WE Ardy Business 90",
         "net": 90,
-        "category": "consumer",
+        "category": "commercial",
         "cycle": "month",
         "fractionLimit": 0
       },
@@ -491,7 +491,7 @@ const appConfig = {
         "id": 1793646055519,
         "name": "WE Ardy Business 65",
         "net": 195,
-        "category": "consumer",
+        "category": "commercial",
         "cycle": "quarter",
         "fractionLimit": 0
       },
@@ -499,7 +499,7 @@ const appConfig = {
         "id": 1793646075048,
         "name": "WE Ardy Business 90",
         "net": 270,
-        "category": "consumer",
+        "category": "commercial",
         "cycle": "quarter",
         "fractionLimit": 0
       },
@@ -507,7 +507,7 @@ const appConfig = {
         "id": 1793646130445,
         "name": "Governmental 60",
         "net": 180,
-        "category": "consumer",
+        "category": "commercial",
         "cycle": "quarter",
         "fractionLimit": 0
       },
@@ -515,7 +515,7 @@ const appConfig = {
         "id": 1793646397348,
         "name": "Governmental 60",
         "net": 60,
-        "category": "consumer",
+        "category": "commercial",
         "cycle": "month",
         "fractionLimit": 0
       }
