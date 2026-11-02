@@ -4,7 +4,9 @@ const appConfig = {
       {
         "id": 1,
         "name": "سوبر 150 جيجا",
-        "net": 260
+        "net": 260,
+        "cycle": "month",
+        "fractionLimit": 3
       },
       {
         "id": 2,
@@ -174,14 +176,16 @@ const appConfig = {
         "name": "We Ardy 40",
         "net": 40,
         "category": "consumer",
-        "cycle": "month"
+        "cycle": "month",
+        "fractionLimit": 1
       },
       {
         "id": 1793570726164,
         "name": "We Ardy 40",
         "net": 120,
         "category": "consumer",
-        "cycle": "quarter"
+        "cycle": "quarter",
+        "fractionLimit": 1
       },
       {
         "id": 1793586534302,
