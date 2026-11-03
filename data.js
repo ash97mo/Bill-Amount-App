@@ -198,42 +198,58 @@ const appConfig = {
       {
         "id": 1,
         "name": "Top-up 20GB",
-        "net": 60
+        "net": 60,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 2,
         "name": "Top-up 50GB",
-        "net": 120
+        "net": 120,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793570438252,
         "name": "Top-up 100GB",
-        "net": 190
+        "net": 190,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793570528701,
         "name": "Giga Tank 400GB",
-        "net": 500
+        "net": 500,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793570543204,
         "name": "Giga Tank 2000GB",
-        "net": 2000
+        "net": 2000,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793728650698,
         "name": "PS4 150GB",
-        "net": 120
+        "net": 120,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793728664934,
         "name": "PS4 300GB",
-        "net": 240
+        "net": 240,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793728818453,
         "name": "GAME ON 40GB",
-        "net": 40
+        "net": 40,
+        "fractionLimit": 3,
+        "tax": 14
       }
     ],
     "services": [
@@ -424,49 +440,66 @@ const appConfig = {
       {
         "id": 1,
         "name": "Top-up 20GB",
-        "net": 60
+        "net": 60,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 2,
         "name": "Top-up 50GB",
-        "net": 120
+        "net": 120,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793570658856,
         "name": "Top-up 100GB",
-        "net": 190
+        "net": 190,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793587175844,
         "name": "Giga Tank 400GB",
-        "net": 500
+        "net": 500,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793587196747,
         "name": "Giga Tank 2000GB",
-        "net": 2000
+        "net": 2000,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793733768268,
         "name": "PS4 150GB",
-        "net": 120
+        "net": 120,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793733779938,
         "name": "PS4 300GB",
-        "net": 240
+        "net": 240,
+        "fractionLimit": 3,
+        "tax": 14
       },
       {
         "id": 1793733812866,
         "name": "GAME ON 40GB",
-        "net": 40
+        "net": 40,
+        "fractionLimit": 3,
+        "tax": 14
       }
     ],
     "services": [
       {
-        "id": 1,
-        "name": "Salfny",
-        "net": 10
+        "id": 1793749089737,
+        "name": "Suspension Request",
+        "net": 60,
+        "tax": 14
       }
     ]
   },
@@ -647,7 +680,43 @@ const appConfig = {
         "net": 25
       }
     ],
-    "addons": [],
+    "addons": [
+      {
+        "id": 1793746263038,
+        "name": "Extra Mobile 25",
+        "net": 25,
+        "tax": 23.12,
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793746391360,
+        "name": "Extra Mobile 15",
+        "net": 15,
+        "tax": 23.12,
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793747009556,
+        "name": "Extra WE Mobile 5",
+        "net": 5,
+        "tax": 23.12,
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793747217044,
+        "name": "Extra WE Fixed 20",
+        "net": 20,
+        "tax": 14,
+        "fractionLimit": 0
+      },
+      {
+        "id": 1793747243426,
+        "name": "Extra WE Fixed 10",
+        "net": 10,
+        "tax": 14,
+        "fractionLimit": 0
+      }
+    ],
     "services": [
       {
         "id": 1793735418767,
