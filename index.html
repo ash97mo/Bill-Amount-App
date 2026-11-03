@@ -886,6 +886,8 @@
         if (neededNet > 0 && neededNet <= activeFractionLimit && activeFractionLimit > 0) {
             standardSec.style.display = 'none';
             coveredSec.style.display = 'none';
+            
+            // إضافة قرش (0.01) زيادة هنا فقط في بالانس الفراكشن لضمان تجديد الخدمة
             const suggested = (neededNet + 0.01).toFixed(2);
             document.getElementById('inlineFractionBadge').innerText = suggested + " ج.م";
             fractionSec.style.display = 'block';
@@ -900,13 +902,14 @@
             fractionSec.style.display = 'none';
             coveredSec.style.display = 'none';
 
+            // الحساب الدقيق بدون أي قروش زيادة للباقات وباقي الفواتير
             const effectiveMultiplier = totalNet > 0 ? (totalGross / totalNet) : (1 + pkgTax / 100);
-            const cashWithTax = Math.ceil(neededNet * effectiveMultiplier * 100) / 100;
-            const effectivePercent = ((effectiveMultiplier - 1) * 100).toFixed(1).replace('.0', '');
+            const cashWithTax = (Math.round(neededNet * effectiveMultiplier * 100) / 100).toFixed(2);
 
-            document.getElementById('taxLabelText').innerText = `المطلوب شامل الضريبة (${effectivePercent}%)${isCommercialAccount ? ' (تجاري)' : ''}:`;
+            // تم إزالة النسبة المئوية وكلمة تجاري من السطر كما طلبت
+            document.getElementById('taxLabelText').innerText = "المطلوب شامل الضريبة:";
             document.getElementById('neededNet').innerText = neededNet.toFixed(2) + " ج.م";
-            document.getElementById('cashWithTax').innerText = cashWithTax.toFixed(2) + " ج.م";
+            document.getElementById('cashWithTax').innerText = cashWithTax + " ج.م";
             standardSec.style.display = 'block';
         }
 
@@ -1065,7 +1068,7 @@
         if (!items || !items.length) return '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">لا توجد عناصر</td></tr>';
         return items.map(i => {
             const tax = i.tax !== undefined ? i.tax : 14;
-            const gross = (i.net * (1 + tax / 100)).toFixed(2);
+            const gross = (Math.round(i.net * (1 + tax / 100) * 100) / 100).toFixed(2);
             return `
             <tr>
                 <td><strong>${i.name}</strong></td>
@@ -1217,7 +1220,6 @@
             fracBox.style.display = 'block';
             document.getElementById('modalEditCycle').value = item.cycle || 'month';
             
-            // قراءة الفراكشن المخزن بدقة تامة وبنفس القيمة الافتراضية
             const defaultFrac = (sys === 'landline' ? 2 : 3);
             document.getElementById('modalEditFraction').value = (item.fractionLimit !== undefined && item.fractionLimit !== null) ? parseFloat(item.fractionLimit) : defaultFrac;
 
