@@ -597,7 +597,7 @@
         let pOpts = '<option value="0">-- بدون باقة إنترنت --</option>';
         const filtered = appData.internet.packages.filter(p => (p.cycle || 'month') === currentNetCycle);
         filtered.forEach(p => { 
-            pOpts += `<option value="${p.id}" data-net="${p.net}">${p.name} (${p.net} ج صافي)</option>`; 
+            pOpts += `<option value="${p.id}" data-net="${p.net}">${p.name} - ${p.net} LE</option>`; 
         });
         pSel.innerHTML = pOpts;
         pSel.value = prev || "0";
@@ -609,7 +609,7 @@
         let wOpts = '<option value="0">-- بدون باقة WE One --</option>';
         const filtered = appData.weone.packages.filter(p => (p.cycle || 'month') === currentWeOneCycle);
         filtered.forEach(p => { 
-            wOpts += `<option value="${p.id}" data-net="${p.net}">${p.name} (${p.net} ج صافي)</option>`; 
+            wOpts += `<option value="${p.id}" data-net="${p.net}">${p.name} - ${p.net} LE</option>`; 
         });
         wSel.innerHTML = wOpts;
         wSel.value = prev || "0";
@@ -622,7 +622,7 @@
 
         const filtered = appData.landline.packages.filter(p => p.category === currentLLCategory && p.cycle === currentLLCycle);
         filtered.forEach(p => {
-            opts += `<option value="${p.id}" data-net="${p.net}">${p.name} (${p.net} ج صافي)</option>`;
+            opts += `<option value="${p.id}" data-net="${p.net}">${p.name} - ${p.net} LE</option>`;
         });
         select.innerHTML = opts;
         select.value = prev || "0";
@@ -637,17 +637,17 @@
 
         const rSel = document.getElementById('routerSelect');
         let rOpts = '<option value="0">-- بدون جهاز --</option>';
-        sysData.routers.forEach(r => { rOpts += `<option value="${r.net}">${r.name} (${r.net} ج صافي)</option>`; });
+        sysData.routers.forEach(r => { rOpts += `<option value="${r.net}">${r.name} - ${r.net} LE</option>`; });
         rSel.innerHTML = rOpts;
 
         const aSel = document.getElementById('addonSelect');
         let aOpts = '<option value="0">-- بدون باقة إضافية --</option>';
-        sysData.addons.forEach(a => { aOpts += `<option value="${a.net}">${a.name} (${a.net} ج صافي)</option>`; });
+        sysData.addons.forEach(a => { aOpts += `<option value="${a.net}">${a.name} - ${a.net} LE</option>`; });
         aSel.innerHTML = aOpts;
 
         const sSel = document.getElementById('serviceSelect');
         let sOpts = '<option value="0">-- بدون خدمات أخرى --</option>';
-        sysData.services.forEach(s => { sOpts += `<option value="${s.net}">${s.name} (${s.net} ج صافي)</option>`; });
+        sysData.services.forEach(s => { sOpts += `<option value="${s.net}">${s.name} - ${s.net} LE</option>`; });
         sSel.innerHTML = sOpts;
     }
 
