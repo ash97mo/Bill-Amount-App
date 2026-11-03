@@ -415,7 +415,7 @@
     </div>
 </div>
 
-<!-- لوحة تحكم الآدمن (شاشة كاملة وزر إغلاق X صغير) -->
+<!-- لوحة تحكم الآدمن -->
 <div id="adminModal" class="admin-modal-overlay">
     <div class="admin-fullscreen-wrapper">
         <button type="button" class="admin-close-btn" onclick="closeAdminModal()" title="إغلاق">&times;</button>
@@ -566,6 +566,20 @@
 
     let loaded = JSON.parse(localStorage.getItem('netAppData')) || (typeof appConfig !== 'undefined' ? appConfig : defaultData);
     let appData = (loaded && loaded.internet && loaded.weone && loaded.landline) ? loaded : defaultData;
+
+    // توحيد وتنظيف حد الفراكشن والضريبة تلقائياً لجميع الباقات لمنع أي تضارب بين الجدول والتعديل
+    ['internet', 'weone', 'landline'].forEach(sys => {
+        if (appData[sys] && appData[sys].packages) {
+            appData[sys].packages.forEach(p => {
+                if (p.fractionLimit === undefined || p.fractionLimit === null) {
+                    p.fractionLimit = (sys === 'landline' ? 2 : 3);
+                } else {
+                    p.fractionLimit = parseFloat(p.fractionLimit);
+                }
+                if (p.tax === undefined || p.tax === null) p.tax = 14;
+            });
+        }
+    });
 
     let currentSystem = 'internet';
     let currentNetCycle = 'month';
@@ -782,7 +796,7 @@
 
         if (currentSystem === 'internet') {
             const pId = parseInt(document.getElementById('packageSelect').value);
-            const pObj = appData.internet.packages.find(p => p.id === pId);
+            const pObj = appData.internet.packages.find(p => p.id == pId);
             if (pObj) {
                 basePkgNet = pObj.net;
                 pkgTax = pObj.tax !== undefined ? pObj.tax : 14;
@@ -794,7 +808,7 @@
             }
         } else if (currentSystem === 'weone') {
             const pId = parseInt(document.getElementById('weOneSelect').value);
-            const pObj = appData.weone.packages.find(p => p.id === pId);
+            const pObj = appData.weone.packages.find(p => p.id == pId);
             if (pObj) {
                 basePkgNet = pObj.net;
                 pkgTax = pObj.tax !== undefined ? pObj.tax : 14;
@@ -805,7 +819,7 @@
             }
         } else if (currentSystem === 'landline') {
             const pId = parseInt(document.getElementById('landlineSelect').value);
-            const pObj = appData.landline.packages.find(p => p.id === pId);
+            const pObj = appData.landline.packages.find(p => p.id == pId);
             if (pObj) {
                 basePkgNet = pObj.net;
                 pkgTax = pObj.tax !== undefined ? pObj.tax : 14;
@@ -819,17 +833,17 @@
         const sysData = appData[currentSystem];
 
         const rId = parseInt(document.getElementById('routerSelect').value);
-        const rObj = sysData.routers.find(r => r.id === rId);
+        const rObj = sysData.routers.find(r => r.id == rId);
         const routerNet = rObj ? rObj.net : 0;
         const routerTax = rObj && rObj.tax !== undefined ? rObj.tax : 14;
 
         const aId = parseInt(document.getElementById('addonSelect').value);
-        const aObj = sysData.addons.find(a => a.id === aId);
+        const aObj = sysData.addons.find(a => a.id == aId);
         const addonNet = aObj ? aObj.net : 0;
         const addonTax = aObj && aObj.tax !== undefined ? aObj.tax : 14;
 
         const sId = parseInt(document.getElementById('serviceSelect').value);
-        const sObj = sysData.services.find(s => s.id === sId);
+        const sObj = sysData.services.find(s => s.id == sId);
         const serviceNet = sObj ? sObj.net : 0;
         const serviceTax = sObj && sObj.tax !== undefined ? sObj.tax : 14;
 
@@ -1077,7 +1091,7 @@
                 <td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${(i.cycle === 'annual') ? 'سنوي' : 'شهري'}</span></td>
                 <td>${i.net} LE</td>
                 <td><span style="color:#059669; font-weight:bold;">${i.tax !== undefined ? i.tax : 14}%</span></td>
-                <td>${i.fractionLimit !== undefined ? i.fractionLimit : 3} LE</td>
+                <td>${parseFloat(i.fractionLimit !== undefined ? i.fractionLimit : 3)} LE</td>
                 <td>
                     <div class="action-cell">
                         <button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', 'packages', ${i.id})">تعديل</button>
@@ -1097,7 +1111,7 @@
                 <td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${(i.cycle === 'annual') ? 'سنوي' : 'شهري'}</span></td>
                 <td>${i.net} LE</td>
                 <td><span style="color:#059669; font-weight:bold;">${i.tax !== undefined ? i.tax : 14}%</span></td>
-                <td>${i.fractionLimit !== undefined ? i.fractionLimit : 3} LE</td>
+                <td>${parseFloat(i.fractionLimit !== undefined ? i.fractionLimit : 3)} LE</td>
                 <td>
                     <div class="action-cell">
                         <button type="button" class="btn-action btn-edit" onclick="openEdit('weone', 'packages', ${i.id})">تعديل</button>
@@ -1111,14 +1125,16 @@
     function renderLandlineRows(items) {
         if (!items || !items.length) return '<tr><td colspan="7" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
         const cycleNames = { quarter: 'ربع سنوي', month: 'شهري', annual: 'سنوي' };
-        return items.map(i => `
+        return items.map(i => {
+            const frac = parseFloat(i.fractionLimit !== undefined ? i.fractionLimit : 2);
+            return `
             <tr>
                 <td><strong>${i.name}</strong></td>
                 <td><span style="font-size:12px;">${i.category === 'commercial' ? 'تجاري' : 'منزلي'}</span></td>
                 <td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${cycleNames[i.cycle] || i.cycle}</span></td>
                 <td>${i.net} LE</td>
                 <td><span style="color:#059669; font-weight:bold;">${i.tax !== undefined ? i.tax : 14}%</span></td>
-                <td>${i.fractionLimit !== undefined ? i.fractionLimit : 2} LE</td>
+                <td>${frac} LE</td>
                 <td>
                     <div class="action-cell">
                         <button type="button" class="btn-action btn-edit" onclick="openEdit('landline', 'packages', ${i.id})">تعديل</button>
@@ -1126,7 +1142,8 @@
                     </div>
                 </td>
             </tr>
-        `).join('');
+            `;
+        }).join('');
     }
 
     function addSimpleAdmin(sys, type, nameId, netId, taxId) {
@@ -1179,12 +1196,12 @@
 
     function deleteAdmin(sys, type, id) {
         if (!confirm('هل أنت متأكد من الحذف؟')) return;
-        appData[sys][type] = appData[sys][type].filter(i => i.id !== id);
+        appData[sys][type] = appData[sys][type].filter(i => i.id != id);
         saveAndSync();
     }
 
     function openEdit(sys, type, id) {
-        const item = appData[sys][type].find(i => i.id === id);
+        const item = appData[sys][type].find(i => i.id == id);
         if (!item) return;
         editContext = { sys, type, id };
         document.getElementById('modalEditName').value = item.name;
@@ -1199,7 +1216,10 @@
             cycleBox.style.display = 'block';
             fracBox.style.display = 'block';
             document.getElementById('modalEditCycle').value = item.cycle || 'month';
-            document.getElementById('modalEditFraction').value = (item.fractionLimit !== undefined) ? item.fractionLimit : 3;
+            
+            // قراءة الفراكشن المخزن بدقة تامة وبنفس القيمة الافتراضية
+            const defaultFrac = (sys === 'landline' ? 2 : 3);
+            document.getElementById('modalEditFraction').value = (item.fractionLimit !== undefined && item.fractionLimit !== null) ? parseFloat(item.fractionLimit) : defaultFrac;
 
             if (sys === 'landline' || sys === 'weone') {
                 catBox.style.display = 'block';
@@ -1227,14 +1247,16 @@
         const tax = parseFloat(document.getElementById('modalEditTax').value) || 0;
         if (!name || isNaN(net)) return alert('يرجى إدخال بيانات صحيحة.');
 
-        const item = appData[editContext.sys][editContext.type].find(i => i.id === editContext.id);
+        const item = appData[editContext.sys][editContext.type].find(i => i.id == editContext.id);
         if (item) {
             item.name = name;
             item.net = net;
             item.tax = tax;
             if (editContext.type === 'packages') {
                 item.cycle = document.getElementById('modalEditCycle').value;
-                item.fractionLimit = parseFloat(document.getElementById('modalEditFraction').value) || 0;
+                item.fractionLimit = parseFloat(document.getElementById('modalEditFraction').value);
+                if (isNaN(item.fractionLimit)) item.fractionLimit = (editContext.sys === 'landline' ? 2 : 3);
+
                 if (editContext.sys === 'landline' || editContext.sys === 'weone') {
                     item.category = document.getElementById('modalEditCat').value;
                 }
