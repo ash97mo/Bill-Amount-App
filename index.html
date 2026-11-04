@@ -6,214 +6,88 @@
     <title>Bill Amount - WE Calculator</title>
     <style>
         * { box-sizing: border-box; }
-        
         :root {
-            --bg-body: #eef2f6;
-            --bg-card: #ffffff;
-            --bg-sec: #f8fafc;
-            --text-main: #0f172a;
-            --text-sub: #475569;
-            --border-color: #cbd5e1;
-            --input-bg: #ffffff;
-            --table-border: #e2e8f0;
-            --th-bg: #f1f5f9;
+            --bg-body: #eef2f6; --bg-card: #ffffff; --bg-sec: #f8fafc;
+            --text-main: #0f172a; --text-sub: #475569; --border-color: #cbd5e1;
+            --input-bg: #ffffff; --table-border: #e2e8f0; --th-bg: #f1f5f9;
         }
-
         body.dark-mode {
-            --bg-body: #0b1120;
-            --bg-card: #151e32;
-            --bg-sec: #1c2742;
-            --text-main: #f8fafc;
-            --text-sub: #94a3b8;
-            --border-color: #334155;
-            --input-bg: #1e293b;
-            --table-border: #2c3a58;
-            --th-bg: #111827;
+            --bg-body: #0b1120; --bg-card: #151e32; --bg-sec: #1c2742;
+            --text-main: #f8fafc; --text-sub: #94a3b8; --border-color: #334155;
+            --input-bg: #1e293b; --table-border: #2c3a58; --th-bg: #111827;
         }
-
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: var(--bg-body); 
-            padding: 18px 10px; 
-            margin: 0; 
-            color: var(--text-main); 
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .card { 
-            max-width: 500px; 
-            margin: auto; 
-            background: var(--bg-card); 
-            padding: 22px; 
-            border-radius: 16px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06); 
-            position: relative;
-            transition: background 0.3s;
-        }
-
-        .theme-btn {
-            position: absolute;
-            top: 18px;
-            left: 18px;
-            background: var(--bg-sec);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-        .theme-btn:hover { transform: scale(1.1); }
-
-        .title-header { text-align: center; margin-bottom: 16px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-body); padding: 18px 10px; margin: 0; color: var(--text-main); }
         
-        .title-header h2 { 
-            margin: 0; 
-            color: var(--text-main); 
-            font-size: 24px; 
-            font-weight: 700;
-            direction: ltr;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: 0.5px;
-        }
-        .gear-o { 
-            display: inline-flex; 
-            cursor: pointer; 
-            color: var(--text-main); 
-            font-size: 20px; 
-            padding: 0 1px; 
-            transition: transform 0.3s, color 0.2s; 
-            user-select: none; 
-        }
+        /* شاشة البداية */
+        .splash-screen { position: fixed; inset: 0; background: radial-gradient(circle at center, #1e293b 0%, #0b1120 100%); z-index: 999999; display: flex; align-items: center; justify-content: center; transition: opacity .7s, visibility .7s; }
+        .splash-screen.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+        .splash-content { text-align: center; color: #fff; padding: 28px 24px 22px; background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.08); border-radius: 20px; backdrop-filter: blur(16px); width: 380px; max-width: 92%; }
+        .splash-top-tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px; direction: ltr; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .splash-top-tag::before, .splash-top-tag::after { content: ''; display: inline-block; width: 22px; height: 1px; background: rgba(148,163,184,.35); }
+        .splash-created-by { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; margin: 0 0 6px; direction: ltr; }
+        .splash-name-main { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 8px; letter-spacing: .5px; direction: ltr; }
+        .splash-name-tl { font-size: 18px; font-weight: 700; color: #f1f5f9; margin: 0 0 20px; letter-spacing: .4px; direction: ltr; }
+        .splash-name-tl .tl-label { color: #f59e0b; font-weight: 800; margin-right: 4px; }
+        .splash-loader { width: 100%; height: 3.5px; background: rgba(255,255,255,.08); border-radius: 4px; overflow: hidden; }
+        .splash-loader-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa, #38bdf8); animation: splashAnim 3.5s linear forwards; }
+        @keyframes splashAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(0); } }
+
+        /* الكارت الرئيسي */
+        .card { max-width: 500px; margin: auto; background: var(--bg-card); padding: 22px; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; }
+        .theme-btn { position: absolute; top: 18px; left: 18px; background: var(--bg-sec); border: 1px solid var(--border-color); color: var(--text-main); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .title-header { text-align: center; margin-bottom: 16px; }
+        .title-header h2 { margin: 0; color: var(--text-main); font-size: 24px; font-weight: 700; direction: ltr; display: inline-flex; align-items: center; }
+        .gear-o { display: inline-flex; cursor: pointer; font-size: 20px; transition: transform .3s; user-select: none; }
         .gear-o:hover { color: #2563eb; transform: rotate(90deg); }
 
         .system-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; background: var(--bg-sec); padding: 4px; border-radius: 10px; margin-bottom: 16px; border: 1px solid var(--table-border); }
-        .tab-btn { background: transparent; border: none; padding: 8px 4px; font-size: 13px; font-weight: 700; color: var(--text-sub); border-radius: 7px; cursor: pointer; transition: 0.2s; }
-        .tab-btn.active { background: #2563eb; color: #fff; box-shadow: 0 2px 6px rgba(37,99,235,0.2); }
+        .tab-btn { background: transparent; border: none; padding: 8px 4px; font-size: 13px; font-weight: 700; color: var(--text-sub); border-radius: 7px; cursor: pointer; }
+        .tab-btn.active { background: #2563eb; color: #fff; }
 
         label { display: block; margin-top: 12px; font-weight: 700; color: var(--text-sub); font-size: 13px; }
-        select, input[type="number"], input[type="text"] { width: 100%; padding: 9px 11px; margin-top: 4px; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 13.5px; background: var(--input-bg); color: var(--text-main); outline: none; transition: 0.2s; }
+        select, input[type="number"], input[type="text"] { width: 100%; padding: 9px 11px; margin-top: 4px; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 13.5px; background: var(--input-bg); color: var(--text-main); outline: none; }
         select:focus, input:focus { border-color: #2563eb; }
 
-        .sub-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
+        .sub-tabs, .radio-container { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
         .sub-btn { background: var(--bg-sec); border: 1.5px solid var(--border-color); padding: 6px 2px; border-radius: 7px; font-size: 12px; font-weight: 700; color: var(--text-sub); cursor: pointer; }
         .sub-btn.active { background: #2563eb; border-color: #2563eb; color: #fff; }
 
-        .radio-container { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; background: var(--bg-sec); padding: 4px; border-radius: 8px; border: 1px solid var(--table-border); }
-        .radio-label { display: flex; align-items: center; justify-content: center; padding: 6px 10px; margin: 0; border-radius: 6px; cursor: pointer; font-size: 12.5px; font-weight: 700; color: var(--text-sub); transition: 0.2s; }
+        .radio-container { background: var(--bg-sec); padding: 4px; border-radius: 8px; border: 1px solid var(--table-border); }
+        .radio-label { display: flex; align-items: center; justify-content: center; padding: 6px; margin: 0; border-radius: 6px; cursor: pointer; font-size: 12.5px; font-weight: 700; color: var(--text-sub); }
         .radio-label input { display: none; }
-        .radio-label.active { background: #2563eb; color: #fff; box-shadow: 0 2px 5px rgba(37,99,235,0.25); }
+        .radio-label.active { background: #2563eb; color: #fff; }
 
         .cycle-tabs-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 5px; }
-
         .balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px; }
         @media (max-width: 480px) { .balance-grid { grid-template-columns: 1fr; } }
         .input-debt { border-color: #fca5a5 !important; background-color: rgba(239, 68, 68, 0.08) !important; color: #ef4444; font-weight: bold; }
 
-        .btn-calc { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; font-size: 15.5px; font-weight: bold; border-radius: 8px; margin-top: 18px; cursor: pointer; box-shadow: 0 4px 10px rgba(37,99,235,0.2); }
+        .btn-calc { width: 100%; background: #2563eb; color: #fff; border: none; padding: 12px; font-size: 15.5px; font-weight: bold; border-radius: 8px; margin-top: 18px; cursor: pointer; }
         .btn-calc:hover { background: #1d4ed8; }
 
         .result-box { margin-top: 18px; background: var(--bg-card); border: 1.5px solid var(--table-border); padding: 16px; border-radius: 10px; display: none; }
         .result-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; white-space: nowrap; gap: 8px; }
         .dim-red { color: #dc2626; font-weight: 700; font-size: 16.5px; }
         .glowing-green { color: #059669; font-size: 20px; font-weight: 800; background: rgba(16, 185, 129, 0.12); padding: 3px 8px; border-radius: 5px; }
-        .fraction-inline-alert { background: rgba(245, 158, 11, 0.12); border: 1.5px solid #f59e0b; padding: 12px; border-radius: 9px; text-align: center; color: #d97706; font-weight: bold; font-size: 14px; }
+        .fraction-inline-alert { background: rgba(245, 158, 11, 0.12); border: 1.5px solid #f59e0b; padding: 12px; border-radius: 9px; text-align: center; color: #d97706; font-weight: bold; }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 15px; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 15px; }
         .modal-card { background: var(--bg-card); color: var(--text-main); width: 100%; max-width: 380px; border-radius: 14px; padding: 22px; text-align: center; border-top: 6px solid #d97706; }
         .modal-fraction-highlight { background: rgba(245, 158, 11, 0.12); border: 2px dashed #f59e0b; padding: 12px; border-radius: 10px; margin: 15px 0; }
         .modal-fraction-amount { font-size: 28px; font-weight: 900; color: #d97706; }
         .modal-btn { background: #d97706; color: #fff; border: none; width: 100%; padding: 10px; font-size: 15px; font-weight: bold; border-radius: 7px; cursor: pointer; }
 
-        /* ================= شاشة الآدمن الكاملة ================= */
-        .admin-modal-overlay { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            background: var(--bg-body); 
-            z-index: 10000; 
-            overflow-y: auto; 
-            padding: 0; 
-        }
-        .admin-fullscreen-wrapper { 
-            width: 100%; 
-            min-height: 100vh; 
-            background: var(--bg-body); 
-            position: relative;
-            padding: 25px 20px 60px 20px;
-        }
-
-        .admin-close-btn { 
-            position: fixed; 
-            top: 18px; 
-            left: 20px; 
-            background: var(--bg-card); 
-            border: 1.5px solid var(--border-color); 
-            font-size: 22px; 
-            line-height: 1;
-            width: 38px; 
-            height: 38px; 
-            border-radius: 50%; 
-            cursor: pointer; 
-            color: var(--text-main); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            transition: 0.2s;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            z-index: 1001;
-        }
-        .admin-close-btn:hover { 
-            background: #dc2626; 
-            color: #fff; 
-            border-color: #dc2626; 
-            transform: scale(1.1); 
-        }
-
-        .admin-content-area { 
-            max-width: 1300px; 
-            width: 100%; 
-            margin: auto; 
-        }
-
-        .admin-header-title { text-align: center; margin-bottom: 20px; }
-        .admin-header-title h2 { margin: 0; font-size: 22px; color: var(--text-main); }
-
-        .admin-nav-tabs { 
-            display: flex; 
-            gap: 10px; 
-            background: var(--bg-card); 
-            padding: 8px; 
-            border-radius: 12px; 
-            margin-bottom: 24px; 
-            border: 1.5px solid var(--table-border); 
-        }
-        .admin-nav-btn { 
-            flex: 1; 
-            background: transparent; 
-            border: none; 
-            padding: 12px; 
-            font-weight: 700; 
-            font-size: 15px; 
-            color: var(--text-sub); 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-        }
-        .admin-nav-btn.active { background: #2563eb; color: #fff; box-shadow: 0 3px 8px rgba(37,99,235,0.25); }
-
-        .section { background: var(--bg-card); border: 1.5px solid var(--table-border); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-        .section h3 { margin: 0 0 14px 0; color: #2563eb; font-size: 16px; font-weight: 800; }
+        /* شاشة الآدمن الكاملة */
+        .admin-modal-overlay { display: none; position: fixed; inset: 0; background: var(--bg-body); z-index: 10000; overflow-y: auto; }
+        .admin-fullscreen-wrapper { width: 100%; min-height: 100vh; padding: 25px 20px 60px; position: relative; }
+        .admin-close-btn { position: fixed; top: 18px; left: 20px; background: var(--bg-card); border: 1.5px solid var(--border-color); font-size: 22px; line-height: 1; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; color: var(--text-main); display: flex; align-items: center; justify-content: center; z-index: 1001; }
+        .admin-close-btn:hover { background: #dc2626; color: #fff; }
+        .admin-content-area { max-width: 1300px; width: 100%; margin: auto; }
+        .admin-nav-tabs { display: flex; gap: 10px; background: var(--bg-card); padding: 8px; border-radius: 12px; margin-bottom: 24px; border: 1.5px solid var(--table-border); }
+        .admin-nav-btn { flex: 1; background: transparent; border: none; padding: 12px; font-weight: 700; font-size: 15px; color: var(--text-sub); border-radius: 8px; cursor: pointer; }
+        .admin-nav-btn.active { background: #2563eb; color: #fff; }
+        .section { background: var(--bg-card); border: 1.5px solid var(--table-border); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .section h3 { margin: 0 0 14px; color: #2563eb; font-size: 16px; font-weight: 800; }
         
         .form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 100px; gap: 10px; align-items: center; margin-bottom: 12px; }
         .form-grid-cycle { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1fr 1fr 100px; gap: 8px; align-items: center; margin-bottom: 12px; }
@@ -221,34 +95,40 @@
         .form-grid-adn { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 100px; gap: 8px; align-items: center; margin-bottom: 12px; }
         @media (max-width: 900px) { .form-grid, .form-grid-cycle, .form-grid-ll, .form-grid-adn { grid-template-columns: 1fr; } }
         
-        .btn-add { height: 40px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .btn-add:hover { background: #1d4ed8; }
-
+        .btn-add { height: 40px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
         .table-responsive { width: 100%; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; background: var(--bg-card); border-radius: 8px; overflow: hidden; border: 1px solid var(--table-border); margin-top: 8px; }
+        table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--table-border); margin-top: 8px; }
         th, td { padding: 11px 14px; text-align: right; font-size: 13.5px; border-bottom: 1px solid var(--table-border); }
         th { background: var(--th-bg); color: var(--text-sub); font-weight: 700; }
         .action-cell { display: flex; gap: 6px; justify-content: center; }
         .btn-action { padding: 5px 12px; border: none; border-radius: 5px; font-size: 12px; font-weight: 700; cursor: pointer; color: #fff; }
-        .btn-edit { background: #d97706; }
-        .btn-delete { background: #dc2626; }
-
+        .btn-edit { background: #d97706; } .btn-delete { background: #dc2626; }
         .export-box { background: rgba(245, 158, 11, 0.08); border: 1.5px solid #f59e0b; padding: 20px; border-radius: 12px; text-align: center; margin-top: 25px; }
         .btn-group { display: flex; justify-content: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
-        .btn-export { background: #d97706; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .btn-download { background: #059669; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .btn-export { background: #d97706; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-download { background: #059669; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-        .sub-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 10002; }
+        .sub-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 10002; }
         .sub-modal-content { background: var(--bg-card); color: var(--text-main); padding: 22px; border-radius: 14px; width: 90%; max-width: 400px; border: 1px solid var(--border-color); }
     </style>
 </head>
 <body>
 
+<!-- شاشة البداية -->
+<div id="splashScreen" class="splash-screen">
+    <div class="splash-content">
+        <div class="splash-top-tag">Bill Amount Calculator</div>
+        <div class="splash-created-by">Created by</div>
+        <div class="splash-name-main">Ashraf AbdElfattah</div>
+        <div class="splash-name-tl"><span class="tl-label">TL:</span> Hadeer Abdou Eldabie</div>
+        <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+    </div>
+</div>
+
 <div class="card">
     <button type="button" class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="تبديل الوضع">🌙</button>
-
     <div class="title-header">
-        <h2>Bill Am<span class="gear-o" onclick="openAdminModal()" title="إدارة الأسعار والأنظمة">⚙</span>unt</h2>
+        <h2>Bill Am<span class="gear-o" onclick="openAdminModal()" title="إدارة الأسعار">⚙</span>unt</h2>
     </div>
 
     <!-- التبديل بين الأنظمة -->
@@ -265,20 +145,11 @@
             <button type="button" class="sub-btn active" id="netCycle_month" onclick="setNetCycle('month')">باقات شهرية</button>
             <button type="button" class="sub-btn" id="netCycle_annual" onclick="setNetCycle('annual')">باقات سنوية</button>
         </div>
-
         <label style="margin-top: 10px;">باقة الإنترنت:</label>
-        <select id="packageSelect" onchange="calculateIfVisible()">
-            <option value="0" selected>-- بدون باقة إنترنت --</option>
-        </select>
+        <select id="packageSelect" onchange="calculateIfVisible()"><option value="0" selected>-- بدون باقة إنترنت --</option></select>
         <div class="radio-container">
-            <label class="radio-label active" id="labelNetConsumer">
-                <input type="radio" name="accountTypeNet" id="netTypeConsumer" value="consumer" checked onchange="updateNetAccountTypeUI()">
-                👤 منزلي
-            </label>
-            <label class="radio-label" id="labelNetCommercial">
-                <input type="radio" name="accountTypeNet" id="netTypeCommercial" value="commercial" onchange="updateNetAccountTypeUI()">
-                🏢 تجاري
-            </label>
+            <label class="radio-label active" id="labelNetConsumer"><input type="radio" name="accountTypeNet" id="netTypeConsumer" value="consumer" checked onchange="updateNetAccountTypeUI()">👤 منزلي</label>
+            <label class="radio-label" id="labelNetCommercial"><input type="radio" name="accountTypeNet" id="netTypeCommercial" value="commercial" onchange="updateNetAccountTypeUI()">🏢 تجاري</label>
         </div>
     </div>
 
@@ -286,70 +157,44 @@
     <div id="sec_weone" style="display: none;">
         <label>نوع باقة WE One:</label>
         <div class="radio-container">
-            <label class="radio-label active" id="labelWeConsumer">
-                <input type="radio" name="accountTypeWe" id="weTypeConsumer" value="consumer" checked onchange="updateWeType('consumer')">
-                👤 منزلي
-            </label>
-            <label class="radio-label" id="labelWeCommercial">
-                <input type="radio" name="accountTypeWe" id="weTypeCommercial" value="commercial" onchange="updateWeType('commercial')">
-                🏢 تجاري
-            </label>
+            <label class="radio-label active" id="labelWeConsumer"><input type="radio" name="accountTypeWe" id="weTypeConsumer" value="consumer" checked onchange="updateWeType('consumer')">👤 منزلي</label>
+            <label class="radio-label" id="labelWeCommercial"><input type="radio" name="accountTypeWe" id="weTypeCommercial" value="commercial" onchange="updateWeType('commercial')">🏢 تجاري</label>
         </div>
-
         <label style="margin-top: 10px;">دورة الباقة:</label>
         <div class="sub-tabs">
             <button type="button" class="sub-btn active" id="weCycle_month" onclick="setWeOneCycle('month')">باقات شهرية</button>
             <button type="button" class="sub-btn" id="weCycle_annual" onclick="setWeOneCycle('annual')">باقات سنوية</button>
         </div>
-
         <label style="margin-top: 10px;">باقة WE One Home:</label>
-        <select id="weOneSelect" onchange="calculateIfVisible()">
-            <option value="0" selected>-- بدون باقة WE One --</option>
-        </select>
+        <select id="weOneSelect" onchange="calculateIfVisible()"><option value="0" selected>-- بدون باقة WE One --</option></select>
     </div>
 
     <!-- 3. قسم التليفون الأرضي -->
     <div id="sec_landline" style="display: none;">
         <label>نوع باقة الأرضي:</label>
         <div class="radio-container">
-            <label class="radio-label active" id="labelLLConsumer">
-                <input type="radio" name="accountTypeLL" id="llTypeConsumer" value="consumer" checked onchange="updateLLType('consumer')">
-                👤 منزلي
-            </label>
-            <label class="radio-label" id="labelLLCommercial">
-                <input type="radio" name="accountTypeLL" id="llTypeCommercial" value="commercial" onchange="updateLLType('commercial')">
-                🏢 تجاري
-            </label>
+            <label class="radio-label active" id="labelLLConsumer"><input type="radio" name="accountTypeLL" id="llTypeConsumer" value="consumer" checked onchange="updateLLType('consumer')">👤 منزلي</label>
+            <label class="radio-label" id="labelLLCommercial"><input type="radio" name="accountTypeLL" id="llTypeCommercial" value="commercial" onchange="updateLLType('commercial')">🏢 تجاري</label>
         </div>
-
         <label style="margin-top: 10px;">دورة الفاتورة:</label>
         <div class="cycle-tabs-3">
             <button type="button" class="sub-btn active" id="cycle_quarter" onclick="setLLCycle('quarter')">ربع سنوي</button>
             <button type="button" class="sub-btn" id="cycle_month" onclick="setLLCycle('month')">شهري</button>
             <button type="button" class="sub-btn" id="cycle_annual" onclick="setLLCycle('annual')">سنوي</button>
         </div>
-
         <label style="margin-top: 10px;">باقة التليفون الأرضي:</label>
-        <select id="landlineSelect" onchange="calculateIfVisible()">
-            <option value="0" selected>-- بدون باقة أرضي --</option>
-        </select>
+        <select id="landlineSelect" onchange="calculateIfVisible()"><option value="0" selected>-- بدون باقة أرضي --</option></select>
     </div>
 
     <!-- الخانات العامة -->
     <label id="lblRouter">الروتر / ONT:</label>
-    <select id="routerSelect" onchange="calculateIfVisible()">
-        <option value="0" selected>-- بدون جهاز --</option>
-    </select>
+    <select id="routerSelect" onchange="calculateIfVisible()"><option value="0" selected>-- بدون جهاز --</option></select>
 
     <label>باقات إضافية:</label>
-    <select id="addonSelect" onchange="calculateIfVisible()">
-        <option value="0" selected>-- بدون باقة إضافية --</option>
-    </select>
+    <select id="addonSelect" onchange="calculateIfVisible()"><option value="0" selected>-- بدون باقة إضافية --</option></select>
 
     <label>خدمات أخرى:</label>
-    <select id="serviceSelect" onchange="calculateIfVisible()">
-        <option value="0" selected>-- بدون خدمات أخرى --</option>
-    </select>
+    <select id="serviceSelect" onchange="calculateIfVisible()"><option value="0" selected>-- بدون خدمات أخرى --</option></select>
 
     <div class="balance-grid">
         <div>
@@ -402,7 +247,7 @@
     </div>
 </div>
 
-<!-- نافذة الفراكشن -->
+<!-- نافذة الفراكشن المنبثقة -->
 <div id="fractionModal" class="modal-overlay">
     <div class="modal-card">
         <div style="font-size: 34px; margin-bottom: 5px;">⚠️</div>
@@ -416,24 +261,20 @@
     </div>
 </div>
 
-<!-- لوحة تحكم الآدمن -->
+<!-- لوحة تحكم الآدمن (Fullscreen Dashboard) -->
 <div id="adminModal" class="admin-modal-overlay">
     <div class="admin-fullscreen-wrapper">
         <button type="button" class="admin-close-btn" onclick="closeAdminModal()" title="إغلاق">&times;</button>
-        
         <div class="admin-content-area">
-            <div class="admin-header-title">
-                <h2>⚙️ لوحة التحكم في الأسعار والضرائب والأنظمة</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; font-size: 22px;">⚙️ لوحة التحكم في الأسعار والضرائب والأنظمة</h2>
             </div>
-
             <div class="admin-nav-tabs">
                 <button type="button" class="admin-nav-btn active" id="btnAdmin_internet" onclick="switchAdminTab('internet')">🌐 باقات الإنترنت</button>
                 <button type="button" class="admin-nav-btn" id="btnAdmin_weone" onclick="switchAdminTab('weone')">📱 باقات WE One Home</button>
                 <button type="button" class="admin-nav-btn" id="btnAdmin_landline" onclick="switchAdminTab('landline')">☎️ باقات التليفون الأرضي</button>
             </div>
-
             <div id="adminContentContainer"></div>
-
             <div class="export-box">
                 <h4 style="margin: 0; color: #d97706; font-size: 15px;">💾 حفظ وتصدير ملف data.js لـ GitHub</h4>
                 <div class="btn-group">
@@ -451,34 +292,24 @@
         <h4 style="margin: 0 0 12px 0;">تعديل العنصر</h4>
         <label style="margin-top:0;">الاسم:</label>
         <input type="text" id="modalEditName" style="margin-bottom: 8px;">
-        
         <div id="modalCycleBox" style="display:none; margin-bottom: 8px;">
             <label style="margin-top:0;">الدورة:</label>
             <select id="modalEditCycle" style="margin-top:4px;">
-                <option value="month">شهري</option>
-                <option value="annual">سنوي</option>
-                <option value="quarter">ربع سنوي</option>
+                <option value="month">شهري</option><option value="annual">سنوي</option><option value="quarter">ربع سنوي</option>
             </select>
         </div>
-
         <div id="modalCatBox" style="display:none; margin-bottom: 8px;">
             <label style="margin-top:0;">النوع:</label>
-            <select id="modalEditCat" style="margin-top:4px;">
-                <option value="consumer">منزلي</option>
-                <option value="commercial">تجاري</option>
-            </select>
+            <select id="modalEditCat" style="margin-top:4px;"><option value="consumer">منزلي</option><option value="commercial">تجاري</option></select>
         </div>
-
         <div id="modalTaxBox" style="margin-bottom: 8px;">
             <label style="margin-top:0;">نسبة الضريبة (%):</label>
             <input type="number" step="0.5" id="modalEditTax" style="margin-top:4px;">
         </div>
-
         <div id="modalFractionBox" style="display:none; margin-bottom: 8px;">
             <label style="margin-top:0;">حد البالانس فراكشن (LE):</label>
             <input type="number" step="0.5" id="modalEditFraction" style="margin-top:4px;">
         </div>
-
         <label style="margin-top:0;">السعر الصافي:</label>
         <input type="number" id="modalEditNet">
         <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
@@ -536,9 +367,7 @@
                 { id: 1, name: "باقة 20 جيجا إضافية", net: 30, tax: 14, fractionLimit: 3 },
                 { id: 2, name: "باقة 50 جيجا إضافية", net: 60, tax: 14, fractionLimit: 3 }
             ],
-            services: [
-                { id: 1, name: "خدمة سلفني", net: 10, tax: 14 }
-            ]
+            services: [{ id: 1, name: "خدمة سلفني", net: 10, tax: 14 }]
         },
         landline: {
             packages: [
@@ -556,62 +385,49 @@
                 { id: 1, name: "جهاز ONT فايبر (إيجار)", net: 10, tax: 14 },
                 { id: 2, name: "جهاز ONT فايبر (قسط شهري)", net: 30, tax: 14 }
             ],
-            addons: [
-                { id: 1, name: "باقة دقائق محمول إضافية", net: 15, tax: 14, fractionLimit: 2 }
-            ],
-            services: [
-                { id: 1, name: "خدمة إظهار رقم الطالب", net: 5, tax: 14 }
-            ]
+            addons: [{ id: 1, name: "باقة دقائق محمول إضافية", net: 15, tax: 14, fractionLimit: 2 }],
+            services: [{ id: 1, name: "خدمة إظهار رقم الطالب", net: 5, tax: 14 }]
         }
     };
 
     let loaded = JSON.parse(localStorage.getItem('netAppData')) || (typeof appConfig !== 'undefined' ? appConfig : defaultData);
     let appData = (loaded && loaded.internet && loaded.weone && loaded.landline) ? loaded : defaultData;
 
-    // توحيد وتنظيف حد الفراكشن والضريبة تلقائياً للباقات والباقات الإضافية
+    // توحيد وتنظيف حد الفراكشن والضريبة
     ['internet', 'weone', 'landline'].forEach(sys => {
         if (appData[sys]) {
             if (appData[sys].packages) {
                 appData[sys].packages.forEach(p => {
-                    if (p.fractionLimit === undefined || p.fractionLimit === null) {
-                        p.fractionLimit = (sys === 'landline' ? 2 : 3);
-                    } else {
-                        p.fractionLimit = parseFloat(p.fractionLimit);
-                    }
+                    p.fractionLimit = (p.fractionLimit !== undefined && p.fractionLimit !== null) ? parseFloat(p.fractionLimit) : (sys === 'landline' ? 2 : 3);
                     if (p.tax === undefined || p.tax === null) p.tax = 14;
                 });
             }
             if (appData[sys].addons) {
                 appData[sys].addons.forEach(a => {
-                    if (a.fractionLimit === undefined || a.fractionLimit === null) {
-                        a.fractionLimit = (sys === 'landline' ? 2 : 3);
-                    } else {
-                        a.fractionLimit = parseFloat(a.fractionLimit);
-                    }
+                    a.fractionLimit = (a.fractionLimit !== undefined && a.fractionLimit !== null) ? parseFloat(a.fractionLimit) : (sys === 'landline' ? 2 : 3);
                     if (a.tax === undefined || a.tax === null) a.tax = 14;
                 });
             }
         }
     });
 
-    let currentSystem = 'internet';
-    let currentNetCycle = 'month';
-    let currentWeCategory = 'consumer';
-    let currentWeOneCycle = 'month';
-    let currentLLCategory = 'consumer';
-    let currentLLCycle = 'quarter';
-    let currentAdminTab = 'internet';
-    let editContext = { sys: null, type: null, id: null };
+    let currentSystem = 'internet', currentNetCycle = 'month', currentWeCategory = 'consumer', currentWeOneCycle = 'month', currentLLCategory = 'consumer', currentLLCycle = 'quarter', currentAdminTab = 'internet', editContext = { sys: null, type: null, id: null };
+
+    // مؤقت شاشة البداية 3.5 ثانية
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const splash = document.getElementById('splashScreen');
+            if (splash) {
+                splash.classList.add('fade-out');
+                setTimeout(() => splash.remove(), 700);
+            }
+        }, 3500);
+    });
 
     function initTheme() {
-        const savedTheme = localStorage.getItem('appTheme') || 'light';
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            document.getElementById('themeToggleBtn').innerText = '☀️';
-        } else {
-            document.body.classList.remove('dark-mode');
-            document.getElementById('themeToggleBtn').innerText = '🌙';
-        }
+        const isDark = (localStorage.getItem('appTheme') || 'light') === 'dark';
+        document.body.classList.toggle('dark-mode', isDark);
+        document.getElementById('themeToggleBtn').innerText = isDark ? '☀️' : '🌙';
     }
 
     function toggleTheme() {
@@ -622,50 +438,33 @@
 
     function switchSystem(sys) {
         currentSystem = sys;
-
-        document.getElementById('tab_internet').classList.toggle('active', sys === 'internet');
-        document.getElementById('tab_weone').classList.toggle('active', sys === 'weone');
-        document.getElementById('tab_landline').classList.toggle('active', sys === 'landline');
-
-        document.getElementById('sec_internet').style.display = (sys === 'internet') ? 'block' : 'none';
-        document.getElementById('sec_weone').style.display = (sys === 'weone') ? 'block' : 'none';
-        document.getElementById('sec_landline').style.display = (sys === 'landline') ? 'block' : 'none';
-
+        ['internet', 'weone', 'landline'].forEach(s => {
+            document.getElementById('tab_' + s).classList.toggle('active', s === sys);
+            document.getElementById('sec_' + s).style.display = (s === sys) ? 'block' : 'none';
+        });
         document.getElementById('lblRouter').innerText = (sys === 'landline') ? 'جهاز ONT:' : 'الروتر / ONT:';
-
         resetInputs();
         populateDropdowns();
     }
 
     function resetInputs() {
-        document.getElementById('packageSelect').value = "0";
-        document.getElementById('weOneSelect').value = "0";
-        document.getElementById('landlineSelect').value = "0";
-        document.getElementById('routerSelect').value = "0";
-        document.getElementById('addonSelect').value = "0";
-        document.getElementById('serviceSelect').value = "0";
+        ['packageSelect', 'weOneSelect', 'landlineSelect', 'routerSelect', 'addonSelect', 'serviceSelect'].forEach(id => document.getElementById(id).value = "0");
         document.getElementById('debtNet').value = "";
         document.getElementById('currentBalance').value = "0";
         document.getElementById('resultBox').style.display = "none";
 
-        currentNetCycle = 'month';
         setNetCycle('month');
-
         currentWeCategory = 'consumer';
-        currentWeOneCycle = 'month';
-        const rWeCon = document.getElementById('weTypeConsumer');
-        if (rWeCon) rWeCon.checked = true;
-        updateWeRadioUI();
         setWeOneCycle('month');
+        document.getElementById('weTypeConsumer').checked = true;
+        updateWeRadioUI();
 
-        const rNetCon = document.getElementById('netTypeConsumer');
-        if (rNetCon) rNetCon.checked = true;
+        document.getElementById('netTypeConsumer').checked = true;
         updateNetAccountTypeUI();
 
         currentLLCategory = 'consumer';
         currentLLCycle = 'quarter';
-        const rLLCon = document.getElementById('llTypeConsumer');
-        if (rLLCon) rLLCon.checked = true;
+        document.getElementById('llTypeConsumer').checked = true;
         updateLLRadioUI();
         updateLLCycleUI();
     }
@@ -732,530 +531,219 @@
     }
 
     function populateInternetSelect() {
-        const pSel = document.getElementById('packageSelect');
-        const prev = pSel.value;
-        let pOpts = '<option value="0">-- بدون باقة إنترنت --</option>';
-        const filtered = appData.internet.packages.filter(p => (p.cycle || 'month') === currentNetCycle);
-        filtered.forEach(p => { 
-            pOpts += `<option value="${p.id}">${p.name} - ${p.net} LE</option>`; 
-        });
-        pSel.innerHTML = pOpts;
-        pSel.value = prev || "0";
+        const sel = document.getElementById('packageSelect'), prev = sel.value;
+        let opts = '<option value="0">-- بدون باقة إنترنت --</option>';
+        appData.internet.packages.filter(p => (p.cycle || 'month') === currentNetCycle).forEach(p => opts += `<option value="${p.id}">${p.name} - ${p.net} LE</option>`);
+        sel.innerHTML = opts; sel.value = prev || "0";
     }
 
     function populateWeOneSelect() {
-        const wSel = document.getElementById('weOneSelect');
-        const prev = wSel.value;
-        let wOpts = '<option value="0">-- بدون باقة WE One --</option>';
-        const filtered = appData.weone.packages.filter(p => 
-            (p.category || 'consumer') === currentWeCategory && 
-            (p.cycle || 'month') === currentWeOneCycle
-        );
-        filtered.forEach(p => { 
-            wOpts += `<option value="${p.id}">${p.name} - ${p.net} LE</option>`; 
-        });
-        wSel.innerHTML = wOpts;
-        wSel.value = prev || "0";
+        const sel = document.getElementById('weOneSelect'), prev = sel.value;
+        let opts = '<option value="0">-- بدون باقة WE One --</option>';
+        appData.weone.packages.filter(p => (p.category || 'consumer') === currentWeCategory && (p.cycle || 'month') === currentWeOneCycle).forEach(p => opts += `<option value="${p.id}">${p.name} - ${p.net} LE</option>`);
+        sel.innerHTML = opts; sel.value = prev || "0";
     }
 
     function populateLandlineSelect() {
-        const select = document.getElementById('landlineSelect');
-        const prev = select.value;
+        const sel = document.getElementById('landlineSelect'), prev = sel.value;
         let opts = '<option value="0">-- بدون باقة أرضي --</option>';
-
-        const filtered = appData.landline.packages.filter(p => 
-            (p.category || 'consumer') === currentLLCategory && 
-            p.cycle === currentLLCycle
-        );
-        filtered.forEach(p => {
-            opts += `<option value="${p.id}">${p.name} - ${p.net} LE</option>`;
-        });
-        select.innerHTML = opts;
-        select.value = prev || "0";
+        appData.landline.packages.filter(p => (p.category || 'consumer') === currentLLCategory && p.cycle === currentLLCycle).forEach(p => opts += `<option value="${p.id}">${p.name} - ${p.net} LE</option>`);
+        sel.innerHTML = opts; sel.value = prev || "0";
     }
 
     function populateDropdowns() {
-        populateInternetSelect();
-        populateWeOneSelect();
-        populateLandlineSelect();
-
+        populateInternetSelect(); populateWeOneSelect(); populateLandlineSelect();
         const sysData = appData[currentSystem];
-
-        const rSel = document.getElementById('routerSelect');
-        let rOpts = '<option value="0">-- بدون جهاز --</option>';
-        sysData.routers.forEach(r => { rOpts += `<option value="${r.id}">${r.name} - ${r.net} LE</option>`; });
-        rSel.innerHTML = rOpts;
-
-        const aSel = document.getElementById('addonSelect');
-        let aOpts = '<option value="0">-- بدون باقة إضافية --</option>';
-        sysData.addons.forEach(a => { aOpts += `<option value="${a.id}">${a.name} - ${a.net} LE</option>`; });
-        aSel.innerHTML = aOpts;
-
-        const sSel = document.getElementById('serviceSelect');
-        let sOpts = '<option value="0">-- بدون خدمات أخرى --</option>';
-        sysData.services.forEach(s => { sOpts += `<option value="${s.id}">${s.name} - ${s.net} LE</option>`; });
-        sSel.innerHTML = sOpts;
+        ['routerSelect', 'addonSelect', 'serviceSelect'].forEach(id => {
+            const type = id === 'routerSelect' ? 'routers' : (id === 'addonSelect' ? 'addons' : 'services');
+            const lbl = id === 'routerSelect' ? 'جهاز' : (id === 'addonSelect' ? 'باقة إضافية' : 'خدمات أخرى');
+            let opts = `<option value="0">-- بدون ${lbl} --</option>`;
+            sysData[type].forEach(item => opts += `<option value="${item.id}">${item.name} - ${item.net} LE</option>`);
+            document.getElementById(id).innerHTML = opts;
+        });
     }
 
     function calculateIfVisible() {
-        if (document.getElementById('resultBox').style.display === 'block') {
-            calculate(false);
-        }
+        if (document.getElementById('resultBox').style.display === 'block') calculate(false);
     }
 
     function calculate(showModal = false) {
-        let basePkgNet = 0;
-        let pkgTax = 14;
-        let isCommercialAccount = false;
-        let activeFractionLimit = 3.0;
-        let pObj = null;
+        let basePkgNet = 0, pkgTax = 14, isCom = false, activeFractionLimit = 3.0, pObj = null;
 
         if (currentSystem === 'internet') {
-            const pId = parseInt(document.getElementById('packageSelect').value);
-            pObj = appData.internet.packages.find(p => p.id == pId);
-            if (pObj) {
-                basePkgNet = pObj.net;
-                pkgTax = pObj.tax !== undefined ? pObj.tax : 14;
-                if (pObj.fractionLimit !== undefined) activeFractionLimit = parseFloat(pObj.fractionLimit);
-            }
-            if (document.getElementById('netTypeCommercial').checked) {
-                isCommercialAccount = true;
-                basePkgNet = basePkgNet * 1.025;
-            }
+            pObj = appData.internet.packages.find(p => p.id == document.getElementById('packageSelect').value);
+            if (pObj) { basePkgNet = pObj.net; pkgTax = pObj.tax ?? 14; if (pObj.fractionLimit !== undefined) activeFractionLimit = parseFloat(pObj.fractionLimit); }
+            if (document.getElementById('netTypeCommercial').checked) { isCom = true; basePkgNet *= 1.025; }
         } else if (currentSystem === 'weone') {
-            const pId = parseInt(document.getElementById('weOneSelect').value);
-            pObj = appData.weone.packages.find(p => p.id == pId);
-            if (pObj) {
-                basePkgNet = pObj.net;
-                pkgTax = pObj.tax !== undefined ? pObj.tax : 14;
-                if (pObj.fractionLimit !== undefined) activeFractionLimit = parseFloat(pObj.fractionLimit);
-            }
-            if (currentWeCategory === 'commercial') {
-                isCommercialAccount = true;
-            }
+            pObj = appData.weone.packages.find(p => p.id == document.getElementById('weOneSelect').value);
+            if (pObj) { basePkgNet = pObj.net; pkgTax = pObj.tax ?? 14; if (pObj.fractionLimit !== undefined) activeFractionLimit = parseFloat(pObj.fractionLimit); }
+            if (currentWeCategory === 'commercial') isCom = true;
         } else if (currentSystem === 'landline') {
-            const pId = parseInt(document.getElementById('landlineSelect').value);
-            pObj = appData.landline.packages.find(p => p.id == pId);
-            if (pObj) {
-                basePkgNet = pObj.net;
-                pkgTax = pObj.tax !== undefined ? pObj.tax : 14;
-                if (pObj.fractionLimit !== undefined) activeFractionLimit = parseFloat(pObj.fractionLimit);
-            }
-            if (currentLLCategory === 'commercial') {
-                isCommercialAccount = true;
-            }
+            pObj = appData.landline.packages.find(p => p.id == document.getElementById('landlineSelect').value);
+            if (pObj) { basePkgNet = pObj.net; pkgTax = pObj.tax ?? 14; if (pObj.fractionLimit !== undefined) activeFractionLimit = parseFloat(pObj.fractionLimit); }
+            if (currentLLCategory === 'commercial') isCom = true;
         }
 
         const sysData = appData[currentSystem];
+        const rObj = sysData.routers.find(r => r.id == document.getElementById('routerSelect').value);
+        const routerNet = rObj ? rObj.net : 0, routerTax = rObj?.tax ?? 14;
 
-        const rId = parseInt(document.getElementById('routerSelect').value);
-        const rObj = sysData.routers.find(r => r.id == rId);
-        const routerNet = rObj ? rObj.net : 0;
-        const routerTax = rObj && rObj.tax !== undefined ? rObj.tax : 14;
-
-        const aId = parseInt(document.getElementById('addonSelect').value);
-        const aObj = sysData.addons.find(a => a.id == aId);
-        const addonNet = aObj ? aObj.net : 0;
-        const addonTax = aObj && aObj.tax !== undefined ? aObj.tax : 14;
-
-        // دعم حد الفراكشن للباقة الإضافية
+        const aObj = sysData.addons.find(a => a.id == document.getElementById('addonSelect').value);
+        const addonNet = aObj ? aObj.net : 0, addonTax = aObj?.tax ?? 14;
         if (aObj && aObj.fractionLimit !== undefined) {
-            if (!pObj) {
-                activeFractionLimit = parseFloat(aObj.fractionLimit);
-            } else {
-                activeFractionLimit = Math.max(activeFractionLimit, parseFloat(aObj.fractionLimit));
-            }
+            activeFractionLimit = !pObj ? parseFloat(aObj.fractionLimit) : Math.max(activeFractionLimit, parseFloat(aObj.fractionLimit));
         }
 
-        const sId = parseInt(document.getElementById('serviceSelect').value);
-        const sObj = sysData.services.find(s => s.id == sId);
-        const serviceNet = sObj ? sObj.net : 0;
-        const serviceTax = sObj && sObj.tax !== undefined ? sObj.tax : 14;
+        const sObj = sysData.services.find(s => s.id == document.getElementById('serviceSelect').value);
+        const serviceNet = sObj ? sObj.net : 0, serviceTax = sObj?.tax ?? 14;
 
-        const debtRaw = parseFloat(document.getElementById('debtNet').value) || 0;
-        const debtNet = Math.abs(debtRaw);
+        const debtNet = Math.abs(parseFloat(document.getElementById('debtNet').value) || 0);
         const balance = parseFloat(document.getElementById('currentBalance').value) || 0;
 
-        const pkgGross = basePkgNet * (1 + pkgTax / 100);
-        const routerGross = routerNet * (1 + routerTax / 100);
-        const addonGross = addonNet * (1 + addonTax / 100);
-        const serviceGross = serviceNet * (1 + serviceTax / 100);
-        const debtGross = debtNet * (1 + pkgTax / 100);
-
         const totalNet = basePkgNet + routerNet + addonNet + serviceNet + debtNet;
-        const totalGross = pkgGross + routerGross + addonGross + serviceGross + debtGross;
+        const totalGross = (basePkgNet * (1 + pkgTax/100)) + (routerNet * (1 + routerTax/100)) + (addonNet * (1 + addonTax/100)) + (serviceNet * (1 + serviceTax/100)) + (debtNet * (1 + pkgTax/100));
 
-        if (totalNet === 0 && balance === 0) {
-            alert('يرجى اختيار باقة أو جهاز أو كتابة مديونية أولاً.');
-            return;
-        }
+        if (totalNet === 0 && balance === 0) return alert('يرجى اختيار باقة أو جهاز أو كتابة مديونية أولاً.');
 
-        document.getElementById('netLabelText').innerText = isCommercialAccount ? "إجمالي الفاتورة صافي (تجاري):" : "إجمالي الفاتورة صافي:";
+        document.getElementById('netLabelText').innerText = isCom ? "إجمالي الفاتورة صافي (تجاري):" : "إجمالي الفاتورة صافي:";
         document.getElementById('totalNet').innerText = totalNet.toFixed(2) + " ج.م";
 
         const debtRow = document.getElementById('debtRow');
-        if (debtNet > 0) {
-            debtRow.style.display = 'flex';
-            document.getElementById('debtSummary').innerText = debtNet.toFixed(2) + " ج.م";
-        } else {
-            debtRow.style.display = 'none';
-        }
+        debtRow.style.display = debtNet > 0 ? 'flex' : 'none';
+        if (debtNet > 0) document.getElementById('debtSummary').innerText = debtNet.toFixed(2) + " ج.م";
 
-        let neededNet = Math.max(0, totalNet - balance);
-        neededNet = Math.round(neededNet * 100) / 100;
-
+        let neededNet = Math.max(0, Math.round((totalNet - balance) * 100) / 100);
         const standardSec = document.getElementById('standardRechargeSection');
         const fractionSec = document.getElementById('fractionInlineSection');
         const coveredSec = document.getElementById('coveredSection');
 
         if (neededNet > 0 && neededNet <= activeFractionLimit && activeFractionLimit > 0) {
-            standardSec.style.display = 'none';
-            coveredSec.style.display = 'none';
-            
+            standardSec.style.display = 'none'; coveredSec.style.display = 'none';
             const suggested = (neededNet + 0.01).toFixed(2);
             document.getElementById('inlineFractionBadge').innerText = suggested + " ج.م";
             fractionSec.style.display = 'block';
-
             document.getElementById('modalFractionAmount').innerText = suggested + " ج.م";
-            
-            if (showModal) {
-                document.getElementById('fractionModal').style.display = 'flex';
-            }
+            if (showModal) document.getElementById('fractionModal').style.display = 'flex';
         } else if (neededNet === 0) {
-            standardSec.style.display = 'none';
-            fractionSec.style.display = 'none';
-            coveredSec.style.display = 'block';
+            standardSec.style.display = 'none'; fractionSec.style.display = 'none'; coveredSec.style.display = 'block';
         } else {
-            fractionSec.style.display = 'none';
-            coveredSec.style.display = 'none';
-
+            fractionSec.style.display = 'none'; coveredSec.style.display = 'none';
             const effectiveMultiplier = totalNet > 0 ? (totalGross / totalNet) : (1 + pkgTax / 100);
             const cashWithTax = (Math.round(neededNet * effectiveMultiplier * 100) / 100).toFixed(2);
-
             document.getElementById('taxLabelText').innerText = "المطلوب شامل الضريبة:";
             document.getElementById('neededNet').innerText = neededNet.toFixed(2) + " ج.م";
             document.getElementById('cashWithTax').innerText = cashWithTax + " ج.م";
             standardSec.style.display = 'block';
         }
-
         document.getElementById('resultBox').style.display = 'block';
     }
 
-    function closeFractionModal() {
-        document.getElementById('fractionModal').style.display = 'none';
-    }
-
-    // ================= لوحة تحكم الآدمن =================
-    function openAdminModal() {
-        renderAdmin();
-        document.getElementById('adminModal').style.display = 'block';
-    }
-
-    function closeAdminModal() {
-        document.getElementById('adminModal').style.display = 'none';
-    }
+    function closeFractionModal() { document.getElementById('fractionModal').style.display = 'none'; }
+    function openAdminModal() { renderAdmin(); document.getElementById('adminModal').style.display = 'block'; }
+    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
     function switchAdminTab(sys) {
         currentAdminTab = sys;
-        ['internet', 'weone', 'landline'].forEach(s => {
-            document.getElementById('btnAdmin_' + s).classList.toggle('active', s === sys);
-        });
+        ['internet', 'weone', 'landline'].forEach(s => document.getElementById('btnAdmin_' + s).classList.toggle('active', s === sys));
         renderAdmin();
     }
 
     function renderAdmin() {
-        const container = document.getElementById('adminContentContainer');
-        const sys = currentAdminTab;
-        const d = appData[sys];
-
+        const container = document.getElementById('adminContentContainer'), sys = currentAdminTab, d = appData[sys];
         let html = '';
 
         if (sys === 'landline') {
-            html += `
-            <div class="section">
-                <h3>☎️ إضافة باقة تليفون أرضي جديدة</h3>
-                <div class="form-grid-ll">
-                    <input type="text" id="add_ll_name" placeholder="اسم الباقة">
-                    <select id="add_ll_cat"><option value="consumer">منزلي</option><option value="commercial">تجاري</option></select>
-                    <select id="add_ll_cycle"><option value="quarter">ربع سنوي</option><option value="month">شهري</option><option value="annual">سنوي</option></select>
-                    <input type="number" id="add_ll_net" placeholder="السعر صافي (LE)">
-                    <input type="number" id="add_ll_tax" placeholder="الضريبة %" value="14" step="0.5">
-                    <input type="number" id="add_ll_frac" placeholder="حد الفراكشن" value="2" step="0.5">
-                    <button type="button" class="btn-add" onclick="addLandlineAdmin()">+ إضافة</button>
-                </div>
-                <div class="table-responsive">
-                    <table>
-                        <thead><tr><th>الباقة</th><th>النوع</th><th>الدورة</th><th>السعر صافي</th><th>الضريبة %</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead>
-                        <tbody>${renderLandlineRows(d.packages)}</tbody>
-                    </table>
-                </div>
-            </div>`;
+            html += `<div class="section"><h3>☎️ إضافة باقة تليفون أرضي</h3><div class="form-grid-ll">
+                <input type="text" id="add_ll_name" placeholder="اسم الباقة"><select id="add_ll_cat"><option value="consumer">منزلي</option><option value="commercial">تجاري</option></select><select id="add_ll_cycle"><option value="quarter">ربع سنوي</option><option value="month">شهري</option><option value="annual">سنوي</option></select><input type="number" id="add_ll_net" placeholder="السعر صافي"><input type="number" id="add_ll_tax" placeholder="الضريبة %" value="14" step="0.5"><input type="number" id="add_ll_frac" placeholder="حد الفراكشن" value="2" step="0.5"><button type="button" class="btn-add" onclick="addLandlineAdmin()">+ إضافة</button>
+            </div><div class="table-responsive"><table><thead><tr><th>الباقة</th><th>النوع</th><th>الدورة</th><th>السعر صافي</th><th>الضريبة %</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead><tbody>${renderLandlineRows(d.packages)}</tbody></table></div></div>`;
         } else if (sys === 'weone') {
-            html += `
-            <div class="section">
-                <h3>📱 إضافة باقة WE One Home جديدة</h3>
-                <div class="form-grid-ll">
-                    <input type="text" id="add_we_name" placeholder="اسم الباقة">
-                    <select id="add_we_cat"><option value="consumer">منزلي</option><option value="commercial">تجاري</option></select>
-                    <select id="add_we_cycle"><option value="month">شهري</option><option value="annual">سنوي</option></select>
-                    <input type="number" id="add_we_net" placeholder="السعر صافي (LE)">
-                    <input type="number" id="add_we_tax" placeholder="الضريبة %" value="14" step="0.5">
-                    <input type="number" id="add_we_frac" placeholder="حد الفراكشن" value="3" step="0.5">
-                    <button type="button" class="btn-add" onclick="addWeOneAdmin()">+ إضافة</button>
-                </div>
-                <div class="table-responsive">
-                    <table>
-                        <thead><tr><th>الباقة</th><th>النوع</th><th>الدورة</th><th>السعر صافي</th><th>الضريبة %</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead>
-                        <tbody>${renderWeOneRows(d.packages)}</tbody>
-                    </table>
-                </div>
-            </div>`;
+            html += `<div class="section"><h3>📱 إضافة باقة WE One Home</h3><div class="form-grid-ll">
+                <input type="text" id="add_we_name" placeholder="اسم الباقة"><select id="add_we_cat"><option value="consumer">منزلي</option><option value="commercial">تجاري</option></select><select id="add_we_cycle"><option value="month">شهري</option><option value="annual">سنوي</option></select><input type="number" id="add_we_net" placeholder="السعر صافي"><input type="number" id="add_we_tax" placeholder="الضريبة %" value="14" step="0.5"><input type="number" id="add_we_frac" placeholder="حد الفراكشن" value="3" step="0.5"><button type="button" class="btn-add" onclick="addWeOneAdmin()">+ إضافة</button>
+            </div><div class="table-responsive"><table><thead><tr><th>الباقة</th><th>النوع</th><th>الدورة</th><th>السعر صافي</th><th>الضريبة %</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead><tbody>${renderWeOneRows(d.packages)}</tbody></table></div></div>`;
         } else {
-            html += `
-            <div class="section">
-                <h3>🌐 إضافة باقة إنترنت جديدة</h3>
-                <div class="form-grid-cycle">
-                    <input type="text" id="add_pkg_name" placeholder="اسم الباقة">
-                    <select id="add_pkg_cycle">
-                        <option value="month">شهري</option>
-                        <option value="annual">سنوي</option>
-                    </select>
-                    <input type="number" id="add_pkg_net" placeholder="السعر صافي (LE)">
-                    <input type="number" id="add_pkg_tax" placeholder="الضريبة %" value="14" step="0.5">
-                    <input type="number" id="add_pkg_frac" placeholder="حد الفراكشن" value="3" step="0.5">
-                    <button type="button" class="btn-add" onclick="addCyclePkgAdmin('${sys}')">+ إضافة</button>
-                </div>
-                <div class="table-responsive">
-                    <table>
-                        <thead><tr><th>الباقة</th><th>الدورة</th><th>السعر صافي</th><th>الضريبة %</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead>
-                        <tbody>${renderCyclePkgRows(sys, d.packages)}</tbody>
-                    </table>
-                </div>
-            </div>`;
+            html += `<div class="section"><h3>🌐 إضافة باقة إنترنت</h3><div class="form-grid-cycle">
+                <input type="text" id="add_pkg_name" placeholder="اسم الباقة"><select id="add_pkg_cycle"><option value="month">شهري</option><option value="annual">سنوي</option></select><input type="number" id="add_pkg_net" placeholder="السعر صافي"><input type="number" id="add_pkg_tax" placeholder="الضريبة %" value="14" step="0.5"><input type="number" id="add_pkg_frac" placeholder="حد الفراكشن" value="3" step="0.5"><button type="button" class="btn-add" onclick="addCyclePkgAdmin('${sys}')">+ إضافة</button>
+            </div><div class="table-responsive"><table><thead><tr><th>الباقة</th><th>الدورة</th><th>السعر صافي</th><th>الضريبة %</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead><tbody>${renderCyclePkgRows(sys, d.packages)}</tbody></table></div></div>`;
         }
 
-        const deviceTitle = (sys === 'landline') ? '📡 أجهزة ONT (للأرضي)' : '📡 أجهزة الروتر / ONT';
-        html += `
-        <div class="section">
-            <h3>${deviceTitle}</h3>
-            <div class="form-grid">
-                <input type="text" id="add_dev_name" placeholder="اسم الجهاز">
-                <input type="number" id="add_dev_net" placeholder="السعر صافي (LE)">
-                <input type="number" id="add_dev_tax" placeholder="الضريبة %" value="14" step="0.5">
-                <button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'routers', 'add_dev_name', 'add_dev_net', 'add_dev_tax')">+ إضافة</button>
-            </div>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>الجهاز</th><th>السعر صافي</th><th>الضريبة %</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
-                    <tbody>${renderSimpleRows(sys, 'routers', d.routers)}</tbody>
-                </table>
-            </div>
-        </div>`;
+        const devTitle = (sys === 'landline') ? '📡 أجهزة ONT (للأرضي)' : '📡 أجهزة الروتر / ONT';
+        html += `<div class="section"><h3>${devTitle}</h3><div class="form-grid"><input type="text" id="add_dev_name" placeholder="اسم الجهاز"><input type="number" id="add_dev_net" placeholder="السعر صافي"><input type="number" id="add_dev_tax" placeholder="الضريبة %" value="14" step="0.5"><button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'routers', 'add_dev_name', 'add_dev_net', 'add_dev_tax')">+ إضافة</button></div><div class="table-responsive"><table><thead><tr><th>الجهاز</th><th>السعر صافي</th><th>الضريبة %</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead><tbody>${renderSimpleRows(sys, 'routers', d.routers)}</tbody></table></div></div>`;
 
-        // قسم الباقات الإضافية مع حد الفراكشن
-        html += `
-        <div class="section">
-            <h3>➕ باقات إضافية</h3>
-            <div class="form-grid-adn">
-                <input type="text" id="add_adn_name" placeholder="اسم الباقة الإضافية">
-                <input type="number" id="add_adn_net" placeholder="السعر صافي (LE)">
-                <input type="number" id="add_adn_tax" placeholder="الضريبة %" value="14" step="0.5">
-                <input type="number" id="add_adn_frac" placeholder="حد الفراكشن" value="${sys === 'landline' ? 2 : 3}" step="0.5">
-                <button type="button" class="btn-add" onclick="addAddonAdmin('${sys}')">+ إضافة</button>
-            </div>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>الباقة</th><th>السعر صافي</th><th>الضريبة %</th><th>بالضريبة</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead>
-                    <tbody>${renderAddonRows(sys, d.addons)}</tbody>
-                </table>
-            </div>
-        </div>`;
+        html += `<div class="section"><h3>➕ باقات إضافية</h3><div class="form-grid-adn"><input type="text" id="add_adn_name" placeholder="اسم الباقة الإضافية"><input type="number" id="add_adn_net" placeholder="السعر صافي"><input type="number" id="add_adn_tax" placeholder="الضريبة %" value="14" step="0.5"><input type="number" id="add_adn_frac" placeholder="حد الفراكشن" value="${sys === 'landline' ? 2 : 3}" step="0.5"><button type="button" class="btn-add" onclick="addAddonAdmin('${sys}')">+ إضافة</button></div><div class="table-responsive"><table><thead><tr><th>الباقة</th><th>السعر صافي</th><th>الضريبة %</th><th>بالضريبة</th><th>حد الفراكشن</th><th style="text-align:center;">إجراء</th></tr></thead><tbody>${renderAddonRows(sys, d.addons)}</tbody></table></div></div>`;
 
-        html += `
-        <div class="section">
-            <h3>⚙️ خدمات أخرى</h3>
-            <div class="form-grid">
-                <input type="text" id="add_srv_name" placeholder="اسم الخدمة">
-                <input type="number" id="add_srv_net" placeholder="السعر صافي (LE)">
-                <input type="number" id="add_srv_tax" placeholder="الضريبة %" value="14" step="0.5">
-                <button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'services', 'add_srv_name', 'add_srv_net', 'add_srv_tax')">+ إضافة</button>
-            </div>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>الخدمة</th><th>السعر صافي</th><th>الضريبة %</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead>
-                    <tbody>${renderSimpleRows(sys, 'services', d.services)}</tbody>
-                </table>
-            </div>
-        </div>`;
+        html += `<div class="section"><h3>⚙️ خدمات أخرى</h3><div class="form-grid"><input type="text" id="add_srv_name" placeholder="اسم الخدمة"><input type="number" id="add_srv_net" placeholder="السعر صافي"><input type="number" id="add_srv_tax" placeholder="الضريبة %" value="14" step="0.5"><button type="button" class="btn-add" onclick="addSimpleAdmin('${sys}', 'services', 'add_srv_name', 'add_srv_net', 'add_srv_tax')">+ إضافة</button></div><div class="table-responsive"><table><thead><tr><th>الخدمة</th><th>السعر صافي</th><th>الضريبة %</th><th>بالضريبة</th><th style="text-align:center;">إجراء</th></tr></thead><tbody>${renderSimpleRows(sys, 'services', d.services)}</tbody></table></div></div>`;
 
         container.innerHTML = html;
     }
 
     function renderSimpleRows(sys, type, items) {
-        if (!items || !items.length) return '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">لا توجد عناصر</td></tr>';
+        if (!items?.length) return '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">لا توجد عناصر</td></tr>';
         return items.map(i => {
-            const tax = i.tax !== undefined ? i.tax : 14;
-            const gross = (Math.round(i.net * (1 + tax / 100) * 100) / 100).toFixed(2);
-            return `
-            <tr>
-                <td><strong>${i.name}</strong></td>
-                <td>${i.net} LE</td>
-                <td><span style="color:#059669; font-weight:bold;">${tax}%</span></td>
-                <td>${gross} LE</td>
-                <td>
-                    <div class="action-cell">
-                        <button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', '${type}', ${i.id})">تعديل</button>
-                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', '${type}', ${i.id})">حذف</button>
-                    </div>
-                </td>
-            </tr>
-            `;
+            const tax = i.tax ?? 14, gross = (Math.round(i.net * (1 + tax / 100) * 100) / 100).toFixed(2);
+            return `<tr><td><strong>${i.name}</strong></td><td>${i.net} LE</td><td><span style="color:#059669; font-weight:bold;">${tax}%</span></td><td>${gross} LE</td><td><div class="action-cell"><button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', '${type}', ${i.id})">تعديل</button><button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', '${type}', ${i.id})">حذف</button></div></td></tr>`;
         }).join('');
     }
 
     function renderAddonRows(sys, items) {
-        if (!items || !items.length) return '<tr><td colspan="6" style="text-align:center; color:#94a3b8;">لا توجد باقات إضافية</td></tr>';
+        if (!items?.length) return '<tr><td colspan="6" style="text-align:center; color:#94a3b8;">لا توجد باقات إضافية</td></tr>';
         return items.map(i => {
-            const tax = i.tax !== undefined ? i.tax : 14;
-            const gross = (Math.round(i.net * (1 + tax / 100) * 100) / 100).toFixed(2);
+            const tax = i.tax ?? 14, gross = (Math.round(i.net * (1 + tax / 100) * 100) / 100).toFixed(2);
             const frac = parseFloat(i.fractionLimit !== undefined ? i.fractionLimit : (sys === 'landline' ? 2 : 3));
-            return `
-            <tr>
-                <td><strong>${i.name}</strong></td>
-                <td>${i.net} LE</td>
-                <td><span style="color:#059669; font-weight:bold;">${tax}%</span></td>
-                <td>${gross} LE</td>
-                <td>${frac} LE</td>
-                <td>
-                    <div class="action-cell">
-                        <button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', 'addons', ${i.id})">تعديل</button>
-                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', 'addons', ${i.id})">حذف</button>
-                    </div>
-                </td>
-            </tr>
-            `;
+            return `<tr><td><strong>${i.name}</strong></td><td>${i.net} LE</td><td><span style="color:#059669; font-weight:bold;">${tax}%</span></td><td>${gross} LE</td><td>${frac} LE</td><td><div class="action-cell"><button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', 'addons', ${i.id})">تعديل</button><button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', 'addons', ${i.id})">حذف</button></div></td></tr>`;
         }).join('');
     }
 
     function renderCyclePkgRows(sys, items) {
-        if (!items || !items.length) return '<tr><td colspan="6" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
-        return items.map(i => `
-            <tr>
-                <td><strong>${i.name}</strong></td>
-                <td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${(i.cycle === 'annual') ? 'سنوي' : 'شهري'}</span></td>
-                <td>${i.net} LE</td>
-                <td><span style="color:#059669; font-weight:bold;">${i.tax !== undefined ? i.tax : 14}%</span></td>
-                <td>${parseFloat(i.fractionLimit !== undefined ? i.fractionLimit : 3)} LE</td>
-                <td>
-                    <div class="action-cell">
-                        <button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', 'packages', ${i.id})">تعديل</button>
-                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', 'packages', ${i.id})">حذف</button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
+        if (!items?.length) return '<tr><td colspan="6" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
+        return items.map(i => `<tr><td><strong>${i.name}</strong></td><td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${(i.cycle === 'annual') ? 'سنوي' : 'شهري'}</span></td><td>${i.net} LE</td><td><span style="color:#059669; font-weight:bold;">${i.tax ?? 14}%</span></td><td>${parseFloat(i.fractionLimit ?? 3)} LE</td><td><div class="action-cell"><button type="button" class="btn-action btn-edit" onclick="openEdit('${sys}', 'packages', ${i.id})">تعديل</button><button type="button" class="btn-action btn-delete" onclick="deleteAdmin('${sys}', 'packages', ${i.id})">حذف</button></div></td></tr>`).join('');
     }
 
     function renderWeOneRows(items) {
-        if (!items || !items.length) return '<tr><td colspan="7" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
-        return items.map(i => `
-            <tr>
-                <td><strong>${i.name}</strong></td>
-                <td><span style="font-size:12px;">${i.category === 'commercial' ? 'تجاري' : 'منزلي'}</span></td>
-                <td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${(i.cycle === 'annual') ? 'سنوي' : 'شهري'}</span></td>
-                <td>${i.net} LE</td>
-                <td><span style="color:#059669; font-weight:bold;">${i.tax !== undefined ? i.tax : 14}%</span></td>
-                <td>${parseFloat(i.fractionLimit !== undefined ? i.fractionLimit : 3)} LE</td>
-                <td>
-                    <div class="action-cell">
-                        <button type="button" class="btn-action btn-edit" onclick="openEdit('weone', 'packages', ${i.id})">تعديل</button>
-                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('weone', 'packages', ${i.id})">حذف</button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
+        if (!items?.length) return '<tr><td colspan="7" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
+        return items.map(i => `<tr><td><strong>${i.name}</strong></td><td><span style="font-size:12px;">${i.category === 'commercial' ? 'تجاري' : 'منزلي'}</span></td><td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${(i.cycle === 'annual') ? 'سنوي' : 'شهري'}</span></td><td>${i.net} LE</td><td><span style="color:#059669; font-weight:bold;">${i.tax ?? 14}%</span></td><td>${parseFloat(i.fractionLimit ?? 3)} LE</td><td><div class="action-cell"><button type="button" class="btn-action btn-edit" onclick="openEdit('weone', 'packages', ${i.id})">تعديل</button><button type="button" class="btn-action btn-delete" onclick="deleteAdmin('weone', 'packages', ${i.id})">حذف</button></div></td></tr>`).join('');
     }
 
     function renderLandlineRows(items) {
-        if (!items || !items.length) return '<tr><td colspan="7" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
+        if (!items?.length) return '<tr><td colspan="7" style="text-align:center; color:#94a3b8;">لا توجد باقات</td></tr>';
         const cycleNames = { quarter: 'ربع سنوي', month: 'شهري', annual: 'سنوي' };
         return items.map(i => {
             const frac = parseFloat(i.fractionLimit !== undefined ? i.fractionLimit : 2);
-            return `
-            <tr>
-                <td><strong>${i.name}</strong></td>
-                <td><span style="font-size:12px;">${i.category === 'commercial' ? 'تجاري' : 'منزلي'}</span></td>
-                <td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${cycleNames[i.cycle] || i.cycle}</span></td>
-                <td>${i.net} LE</td>
-                <td><span style="color:#059669; font-weight:bold;">${i.tax !== undefined ? i.tax : 14}%</span></td>
-                <td>${frac} LE</td>
-                <td>
-                    <div class="action-cell">
-                        <button type="button" class="btn-action btn-edit" onclick="openEdit('landline', 'packages', ${i.id})">تعديل</button>
-                        <button type="button" class="btn-action btn-delete" onclick="deleteAdmin('landline', 'packages', ${i.id})">حذف</button>
-                    </div>
-                </td>
-            </tr>
-            `;
+            return `<tr><td><strong>${i.name}</strong></td><td><span style="font-size:12px;">${i.category === 'commercial' ? 'تجاري' : 'منزلي'}</span></td><td><span style="font-size:12px; font-weight:bold; color:#2563eb;">${cycleNames[i.cycle] || i.cycle}</span></td><td>${i.net} LE</td><td><span style="color:#059669; font-weight:bold;">${i.tax ?? 14}%</span></td><td>${frac} LE</td><td><div class="action-cell"><button type="button" class="btn-action btn-edit" onclick="openEdit('landline', 'packages', ${i.id})">تعديل</button><button type="button" class="btn-action btn-delete" onclick="deleteAdmin('landline', 'packages', ${i.id})">حذف</button></div></td></tr>`;
         }).join('');
     }
 
     function addSimpleAdmin(sys, type, nameId, netId, taxId) {
-        const name = document.getElementById(nameId).value.trim();
-        const net = parseFloat(document.getElementById(netId).value);
-        const tax = parseFloat(document.getElementById(taxId).value) || 14;
-        if (!name || isNaN(net)) return alert('يرجى كتابة الاسم والسعر بشكل صحيح.');
-
+        const name = document.getElementById(nameId).value.trim(), net = parseFloat(document.getElementById(netId).value), tax = parseFloat(document.getElementById(taxId).value) || 14;
+        if (!name || isNaN(net)) return alert('يرجى ملء البيانات بشكل صحيح.');
         appData[sys][type].push({ id: Date.now(), name, net, tax });
         saveAndSync();
     }
 
     function addAddonAdmin(sys) {
-        const name = document.getElementById('add_adn_name').value.trim();
-        const net = parseFloat(document.getElementById('add_adn_net').value);
-        const tax = parseFloat(document.getElementById('add_adn_tax').value) || 14;
-        const frac = parseFloat(document.getElementById('add_adn_frac').value) || (sys === 'landline' ? 2 : 3);
-        if (!name || isNaN(net)) return alert('يرجى ملء جميع بيانات الباقة الإضافية.');
-
+        const name = document.getElementById('add_adn_name').value.trim(), net = parseFloat(document.getElementById('add_adn_net').value), tax = parseFloat(document.getElementById('add_adn_tax').value) || 14, frac = parseFloat(document.getElementById('add_adn_frac').value) || (sys === 'landline' ? 2 : 3);
+        if (!name || isNaN(net)) return alert('يرجى ملء البيانات بشكل صحيح.');
         appData[sys].addons.push({ id: Date.now(), name, net, tax, fractionLimit: frac });
         saveAndSync();
     }
 
     function addCyclePkgAdmin(sys) {
-        const name = document.getElementById('add_pkg_name').value.trim();
-        const cycle = document.getElementById('add_pkg_cycle').value;
-        const net = parseFloat(document.getElementById('add_pkg_net').value);
-        const tax = parseFloat(document.getElementById('add_pkg_tax').value) || 14;
-        const fractionLimit = parseFloat(document.getElementById('add_pkg_frac').value) || 3;
-        if (!name || isNaN(net)) return alert('يرجى ملء الاسم والسعر بشكل صحيح.');
-
-        appData[sys].packages.push({ id: Date.now(), name, net, cycle, tax, fractionLimit });
+        const name = document.getElementById('add_pkg_name').value.trim(), cycle = document.getElementById('add_pkg_cycle').value, net = parseFloat(document.getElementById('add_pkg_net').value), tax = parseFloat(document.getElementById('add_pkg_tax').value) || 14, frac = parseFloat(document.getElementById('add_pkg_frac').value) || 3;
+        if (!name || isNaN(net)) return alert('يرجى ملء البيانات بشكل صحيح.');
+        appData[sys].packages.push({ id: Date.now(), name, net, cycle, tax, fractionLimit: frac });
         saveAndSync();
     }
 
     function addWeOneAdmin() {
-        const name = document.getElementById('add_we_name').value.trim();
-        const cat = document.getElementById('add_we_cat').value;
-        const cycle = document.getElementById('add_we_cycle').value;
-        const net = parseFloat(document.getElementById('add_we_net').value);
-        const tax = parseFloat(document.getElementById('add_we_tax').value) || 14;
-        const fractionLimit = parseFloat(document.getElementById('add_we_frac').value) || 3;
-        if (!name || isNaN(net)) return alert('يرجى ملء جميع البيانات بشكل صحيح.');
-
-        appData.weone.packages.push({ id: Date.now(), name, net, category: cat, cycle, tax, fractionLimit });
+        const name = document.getElementById('add_we_name').value.trim(), cat = document.getElementById('add_we_cat').value, cycle = document.getElementById('add_we_cycle').value, net = parseFloat(document.getElementById('add_we_net').value), tax = parseFloat(document.getElementById('add_we_tax').value) || 14, frac = parseFloat(document.getElementById('add_we_frac').value) || 3;
+        if (!name || isNaN(net)) return alert('يرجى ملء البيانات بشكل صحيح.');
+        appData.weone.packages.push({ id: Date.now(), name, net, category: cat, cycle, tax, fractionLimit: frac });
         saveAndSync();
     }
 
     function addLandlineAdmin() {
-        const name = document.getElementById('add_ll_name').value.trim();
-        const cat = document.getElementById('add_ll_cat').value;
-        const cycle = document.getElementById('add_ll_cycle').value;
-        const net = parseFloat(document.getElementById('add_ll_net').value);
-        const tax = parseFloat(document.getElementById('add_ll_tax').value) || 14;
-        const fractionLimit = parseFloat(document.getElementById('add_ll_frac').value) || 2;
-        if (!name || isNaN(net)) return alert('يرجى ملء جميع البيانات بشكل صحيح.');
-
-        appData.landline.packages.push({ id: Date.now(), name, net, category: cat, cycle, tax, fractionLimit });
+        const name = document.getElementById('add_ll_name').value.trim(), cat = document.getElementById('add_ll_cat').value, cycle = document.getElementById('add_ll_cycle').value, net = parseFloat(document.getElementById('add_ll_net').value), tax = parseFloat(document.getElementById('add_ll_tax').value) || 14, frac = parseFloat(document.getElementById('add_ll_frac').value) || 2;
+        if (!name || isNaN(net)) return alert('يرجى ملء البيانات بشكل صحيح.');
+        appData.landline.packages.push({ id: Date.now(), name, net, category: cat, cycle, tax, fractionLimit: frac });
         saveAndSync();
     }
 
@@ -1271,66 +759,38 @@
         editContext = { sys, type, id };
         document.getElementById('modalEditName').value = item.name;
         document.getElementById('modalEditNet').value = item.net;
-        document.getElementById('modalEditTax').value = (item.tax !== undefined) ? item.tax : 14;
+        document.getElementById('modalEditTax').value = item.tax ?? 14;
 
-        const cycleBox = document.getElementById('modalCycleBox');
-        const catBox = document.getElementById('modalCatBox');
-        const fracBox = document.getElementById('modalFractionBox');
-
-        // دعم حد الفراكشن للباقات وللباقات الإضافية أيضاً
+        const cycleBox = document.getElementById('modalCycleBox'), catBox = document.getElementById('modalCatBox'), fracBox = document.getElementById('modalFractionBox');
         if (type === 'packages' || type === 'addons') {
             fracBox.style.display = 'block';
-            const defaultFrac = (sys === 'landline' ? 2 : 3);
-            document.getElementById('modalEditFraction').value = (item.fractionLimit !== undefined && item.fractionLimit !== null) ? parseFloat(item.fractionLimit) : defaultFrac;
-        } else {
-            fracBox.style.display = 'none';
-        }
+            document.getElementById('modalEditFraction').value = item.fractionLimit !== undefined ? parseFloat(item.fractionLimit) : (sys === 'landline' ? 2 : 3);
+        } else { fracBox.style.display = 'none'; }
 
         if (type === 'packages') {
             cycleBox.style.display = 'block';
             document.getElementById('modalEditCycle').value = item.cycle || 'month';
-
-            if (sys === 'landline' || sys === 'weone') {
-                catBox.style.display = 'block';
-                document.getElementById('modalEditCat').value = item.category || 'consumer';
-            } else {
-                catBox.style.display = 'none';
-            }
-        } else {
-            cycleBox.style.display = 'none';
-            catBox.style.display = 'none';
-        }
+            catBox.style.display = (sys === 'landline' || sys === 'weone') ? 'block' : 'none';
+            if (sys === 'landline' || sys === 'weone') document.getElementById('modalEditCat').value = item.category || 'consumer';
+        } else { cycleBox.style.display = 'none'; catBox.style.display = 'none'; }
 
         document.getElementById('editModal').style.display = 'flex';
     }
 
-    function closeEditModal() {
-        document.getElementById('editModal').style.display = 'none';
-        editContext = { sys: null, type: null, id: null };
-    }
+    function closeEditModal() { document.getElementById('editModal').style.display = 'none'; editContext = { sys: null, type: null, id: null }; }
 
     function saveEdit() {
-        const name = document.getElementById('modalEditName').value.trim();
-        const net = parseFloat(document.getElementById('modalEditNet').value);
-        const tax = parseFloat(document.getElementById('modalEditTax').value) || 0;
+        const name = document.getElementById('modalEditName').value.trim(), net = parseFloat(document.getElementById('modalEditNet').value), tax = parseFloat(document.getElementById('modalEditTax').value) || 0;
         if (!name || isNaN(net)) return alert('يرجى إدخال بيانات صحيحة.');
-
         const item = appData[editContext.sys][editContext.type].find(i => i.id == editContext.id);
         if (item) {
-            item.name = name;
-            item.net = net;
-            item.tax = tax;
-
+            item.name = name; item.net = net; item.tax = tax;
             if (editContext.type === 'packages' || editContext.type === 'addons') {
-                item.fractionLimit = parseFloat(document.getElementById('modalEditFraction').value);
-                if (isNaN(item.fractionLimit)) item.fractionLimit = (editContext.sys === 'landline' ? 2 : 3);
+                item.fractionLimit = parseFloat(document.getElementById('modalEditFraction').value) || (editContext.sys === 'landline' ? 2 : 3);
             }
-
             if (editContext.type === 'packages') {
                 item.cycle = document.getElementById('modalEditCycle').value;
-                if (editContext.sys === 'landline' || editContext.sys === 'weone') {
-                    item.category = document.getElementById('modalEditCat').value;
-                }
+                if (editContext.sys === 'landline' || editContext.sys === 'weone') item.category = document.getElementById('modalEditCat').value;
             }
             saveAndSync();
             closeEditModal();
@@ -1343,29 +803,15 @@
         populateDropdowns();
     }
 
-    function getFormattedJS() {
-        return "const appConfig = " + JSON.stringify(appData, null, 2) + ";";
-    }
-
-    function copyDataConfig() {
-        navigator.clipboard.writeText(getFormattedJS()).then(() => alert("تم نسخ الكود بنجاح! الصقه في data.js على GitHub."));
-    }
-
+    function getFormattedJS() { return "const appConfig = " + JSON.stringify(appData, null, 2) + ";"; }
+    function copyDataConfig() { navigator.clipboard.writeText(getFormattedJS()).then(() => alert("تم نسخ الكود بنجاح! الصقه في data.js على GitHub.")); }
     function downloadDataFile() {
-        const blob = new Blob([getFormattedJS()], { type: 'text/javascript' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'data.js';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([getFormattedJS()], { type: 'text/javascript' }));
+        a.download = 'data.js'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
     }
 
     initTheme();
     populateDropdowns();
 </script>
-
 </body>
 </html>
