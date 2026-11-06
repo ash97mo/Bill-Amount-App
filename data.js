@@ -168,6 +168,30 @@ const appConfig = {
         "cycle": "month",
         "tax": 14,
         "fractionLimit": 3
+      },
+      {
+        "id": 1793986181076,
+        "name": "Ultra 250GB",
+        "net": 785,
+        "cycle": "month",
+        "tax": 14,
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793986200416,
+        "name": "Ultra 500GB",
+        "net": 1150,
+        "cycle": "month",
+        "tax": 14,
+        "fractionLimit": 3
+      },
+      {
+        "id": 1793986271136,
+        "name": "Ultra 750GB",
+        "net": 1425,
+        "cycle": "month",
+        "tax": 14,
+        "fractionLimit": 3
       }
     ],
     "routers": [
