@@ -160,6 +160,14 @@ const appConfig = {
         "cycle": "annual",
         "fractionLimit": 3,
         "tax": 14
+      },
+      {
+        "id": 1793977358915,
+        "name": "Super 100GB",
+        "net": 150,
+        "cycle": "month",
+        "tax": 14,
+        "fractionLimit": 3
       }
     ],
     "routers": [
