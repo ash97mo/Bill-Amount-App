@@ -1233,10 +1233,74 @@ const ttsData = {
                 "target": "SEC_1794583113335"
             }
         ],
-        "SEC_1794582966856": [],
-        "SEC_1794582980164": [],
-        "SEC_1794583086456": [],
-        "SEC_1794583113335": []
+        "SEC_1794582966856": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "اول حاجه هنشوف لو فية ابديت بيقول نعمل ايه.<div>لو اتحلت هنابدت الشكوه انها اتحلت وهنعمل SR حل المشكلة.&nbsp;</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "لو مفيش ابديت هنعمل IR Delay لل Second وهنابدت برقمها عالشكوة.<div>ونجدد المده.</div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After Sla"
+            }
+        ],
+        "SEC_1794582980164": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "اول حاجه هنشوف لو فية ابديت بيقول نعمل ايه.<div>لو اتحلت هنابدت الشكوه انها اتحلت وهنعمل SR حل المشكلة.&nbsp;</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "لو مفيش ابديت هنبلغه لسه الشكوه في القسم المختص ولسه في خلال المده.<div>وهنابدت عالشكوه انه بيتابع .</div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up Within Sla"
+            }
+        ],
+        "SEC_1794583086456": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "اول حاجه هنشوف لو فية ابديت بيقول نعمل ايه.<div>لو اتحلت هنابدت الشكوه انها اتحلت وهنعمل SR حل المشكلة.&nbsp;</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "لو مفيش ابديت هنبلغه لسه الشكوه في القسم المختص ولسه في خلال المده.<div>وهنابدت عالشكوه انه بيتابع .</div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After ReEsclation Within Sla"
+            }
+        ],
+        "SEC_1794583113335": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "اول حاجه هنشوف لو فية ابديت بيقول نعمل ايه.<div>لو اتحلت هنابدت الشكوه انها اتحلت وهنعمل SR حل المشكلة.&nbsp;</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "لو مفيش ابديت هنعمل IR Delay لل Second وهنابدت برقمها عالشكوة.<div>ونجدد المده.</div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After ReEsclation After Sla"
+            }
+        ]
     },
     "sectionTitles": {
         "ADVANCED": "<span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\">ما هي حالة الشكوه (Status)</span></span></span>",
@@ -1246,7 +1310,7 @@ const ttsData = {
         "CLOSING_AUTOMATION": "اختر حالة الغلق الخاصة:",
         "SLS_FOLLOWUP": "ما هو موقف العميل والمشكلة؟",
         "IU": "<span style=\"font-size: 14px;\"><span style=\"color: rgb(250, 204, 21);\">هنشوف الشكوة متصعدة كام مره لل IU&nbsp;</span></span>",
-        "NOC": "<span style=\"font-size: 12px;\"><span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\">هنشوف الشكوة متصعدة كام مره لل Noc</span></span></span></span>",
+        "NOC": "<span style=\"font-size: 12px;\"><span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\"><span style=\"font-size: 16px;\"><span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 14px;\">هنشوف الشكوة متصعدة كام مره لل Noc</span></span></span></span></span></span></span>",
         "ADV_OTHER": false,
         "CUSTOM_1794074541102": false,
         "FOLLOWUP": false,
@@ -1275,8 +1339,8 @@ const ttsData = {
         "SEC_1794465582630": "📋 الخطوات المطلوبة:",
         "SEC_1794465800265": "📋 الخطوات المطلوبة:",
         "SEC_1794481536956": "📋 الخطوات المطلوبة:",
-        "POOL_1794487315512": "<span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\">هنشوف ال <span style=\"color: rgb(56, 189, 248);\"><span style=\"color: rgb(56, 189, 248);\">Pool</span></span> الاساسي للشكوة.</span></span><div><span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\">اول <span style=\"color: rgb(56, 189, 248);\">Pool</span> اتصعدت ليه</span></span></div>",
-        "POOL_1794487341327": "<span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\">هنشوف الشكوة متصعدة كام مره لل Pilot -Sls</span></span>",
+        "POOL_1794487315512": "<span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\"></span></span><span style=\"font-size: 14px;\"><span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\">هنشوف ال <span style=\"color: rgb(56, 189, 248);\"><span style=\"color: rgb(56, 189, 248);\">Pool</span></span> الاساسي للشكوة.</span></span><div><span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\">اول <span style=\"color: rgb(56, 189, 248);\">Pool</span> اتصعدت ليه</span></span></div></span><div><span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\"></span></span></div>",
+        "POOL_1794487341327": "<span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\"><span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\"><span style=\"font-size: 14px;\"><span style=\"font-size: 14px;\">هنشوف الشكوة متصعدة كام مره لل Pilot -Sls</span></span></span></span></span></span>",
         "SEC_1794488549230": "📋 الخطوات المطلوبة:",
         "SEC_1794488549943": "📋 الخطوات المطلوبة:",
         "SEC_1794488560660": "📋 الخطوات المطلوبة:",
@@ -1306,7 +1370,7 @@ const ttsData = {
         "SEC_1794570845494": "📋 الخطوات المطلوبة:",
         "SEC_1794575106011": "📋 الخطوات المطلوبة:",
         "SEC_1794577071735": "📋 الخطوات المطلوبة:",
-        "SEC_1794579039183": false,
+        "SEC_1794579039183": "<span style=\"font-size: 14px;\"><span style=\"color: rgb(250, 204, 21);\">هنشوف الشكوة متصعدة كام مره لل Second</span></span>",
         "SEC_1794579096901": false,
         "SEC_1794579238366": "📋 الخطوات المطلوبة:",
         "SEC_1794579246094": "📋 الخطوات المطلوبة:",
