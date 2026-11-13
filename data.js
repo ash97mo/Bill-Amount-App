@@ -66,7 +66,7 @@ const ttsData = {
             {
                 "type": "step",
                 "num": "٢",
-                "text": "هنعمل <span style=\"background-color: rgb(254, 240, 138); color: rgb(0, 0, 0); padding: 1px 4px; border-radius: 3px;\">TTS Case</span> ونابدت برقمها جوه الشكوه"
+                "text": "هنعمل <span style=\"background-color: rgb(254, 240, 138); color: rgb(0, 0, 0); padding: 1px 4px; border-radius: 3px;\">TTS Case</span>&nbsp;On Call ونابدت برقمها جوه الشكوه"
             },
             {
                 "type": "note",
