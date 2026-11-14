@@ -103,13 +103,13 @@ const ttsData = {
         "INSTALLATION_OPS": [
             {
                 "type": "case",
-                "text": "لو تابع للقاهرة، الجيزة أو الإسكندرية",
-                "decKey": "INSTALL_CAIRO"
+                "text": "القاهرة - الجيزة - الإسكندرية",
+                "target": "SEC_1794614404992"
             },
             {
                 "type": "case",
-                "text": "لو تابع للمحافظات الأخرى&nbsp;",
-                "decKey": "INSTALL_OTHER"
+                "text": "المحافظات الأخرى&nbsp;",
+                "target": "SEC_1794614405738"
             }
         ],
         "CLOSING_AUTOMATION": [
@@ -866,7 +866,7 @@ const ttsData = {
         "SEC_1794510070671": [
             {
                 "type": "case",
-                "text": "لسه في خلال ال SLA من اخر تصعيد",
+                "text": "خلال ال SLA من اخر تصعيد",
                 "target": "SEC_1794510431992"
             },
             {
@@ -890,7 +890,7 @@ const ttsData = {
         "SEC_1794510156397": [
             {
                 "type": "case",
-                "text": "لسه في خلال ال SLA من اخر تصعيد",
+                "text": "خلال ال SLA من اخر تصعيد",
                 "target": "SEC_1794510543575"
             },
             {
@@ -1224,7 +1224,7 @@ const ttsData = {
         "SEC_1794582902199": [
             {
                 "type": "case",
-                "text": "لسه في خلال ال SLA من اخر تصعيد",
+                "text": "خلال ال SLA من اخر تصعيد",
                 "target": "SEC_1794583086456"
             },
             {
@@ -1294,6 +1294,290 @@ const ttsData = {
                 "type": "step",
                 "num": "٢",
                 "text": "لو مفيش ابديت هنعمل IR Delay لل Second وهنابدت برقمها عالشكوة.<div>ونجدد المده.</div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After ReEsclation After Sla"
+            }
+        ],
+        "SEC_1794613340643": [
+            {
+                "type": "case",
+                "text": "القاهرة - الجيزة - الإسكندرية",
+                "target": "SEC_1794613416448"
+            }
+        ],
+        "SEC_1794613341735": [
+            {
+                "type": "case",
+                "text": "القاهرة - الجيزة - الإسكندرية",
+                "target": "SEC_1794613511555"
+            },
+            {
+                "type": "case",
+                "text": "المحافظات الأخرى&nbsp;",
+                "target": "SEC_1794613512255"
+            }
+        ],
+        "SEC_1794613416448": [
+            {
+                "type": "case",
+                "text": "عدت ال SLA",
+                "target": "SEC_1794613594303"
+            }
+        ],
+        "SEC_1794613458241": [
+            {
+                "type": "case",
+                "text": "خلال ال SLA",
+                "target": "SEC_1794613635511"
+            },
+            {
+                "type": "case",
+                "text": "عدت ال SLA",
+                "target": "SEC_1794613636337"
+            }
+        ],
+        "SEC_1794613511555": [],
+        "SEC_1794613512255": [],
+        "SEC_1794613592847": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "<br>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<br>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "<br>"
+            }
+        ],
+        "SEC_1794613594303": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "<br>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<br>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "<br>"
+            }
+        ],
+        "SEC_1794613635511": [],
+        "SEC_1794613636337": [],
+        "SEC_1794614404992": [
+            {
+                "type": "case",
+                "text": "متصعدة مرة وحدة",
+                "target": "SEC_1794614438145"
+            },
+            {
+                "type": "case",
+                "text": "متصعدة اكتر من مرة",
+                "target": "SEC_1794614438805"
+            }
+        ],
+        "SEC_1794614405738": [
+            {
+                "type": "case",
+                "text": "متصعدة مرة وحدة",
+                "target": "SEC_1794614503492"
+            },
+            {
+                "type": "case",
+                "text": "متصعدة اكتر من مره",
+                "target": "SEC_1794614504098"
+            }
+        ],
+        "SEC_1794614438145": [
+            {
+                "type": "case",
+                "text": "خلال ال SLA",
+                "target": "SEC_1794614865795"
+            },
+            {
+                "type": "case",
+                "text": "عدت ال SLA",
+                "target": "SEC_1794614871738"
+            }
+        ],
+        "SEC_1794614438805": [
+            {
+                "type": "case",
+                "text": "خلال ال SLA من اخر تصعيد",
+                "target": "SEC_1794615135068"
+            },
+            {
+                "type": "case",
+                "text": "عدت ال SLA من اخر تصعيد",
+                "target": "SEC_1794615135801"
+            }
+        ],
+        "SEC_1794614503492": [
+            {
+                "type": "case",
+                "text": "خلال ال SLA",
+                "target": "SEC_1794615735155"
+            },
+            {
+                "type": "case",
+                "text": "عدت ال SLA",
+                "target": "SEC_1794615736083"
+            }
+        ],
+        "SEC_1794614504098": [
+            {
+                "type": "case",
+                "text": "خلال ال SLA من اخر تصعيد",
+                "target": "SEC_1794615770147"
+            },
+            {
+                "type": "case",
+                "text": "عدت ال SLA من اخر تصعيد",
+                "target": "SEC_1794615770798"
+            }
+        ],
+        "SEC_1794614865795": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "الشكوة موجوده في القسم المختص وجاري العمل علي اصلاح العطل خلال يومين عمل."
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up Within Sla"
+            }
+        ],
+        "SEC_1794614871738": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "هنعمل IR Delay&nbsp; لل Installation Operations وهنابدت برقمها عالشكوة.<div>وهنجدد المده.</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After Sla"
+            }
+        ],
+        "SEC_1794615135068": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "الشكوة موجوده في القسم المختص وجاري العمل علي اصلاح العطل خلال يومين عمل."
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After ReEsclation Within Sla"
+            }
+        ],
+        "SEC_1794615135801": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "هنعمل IR Delay&nbsp; لل Installation Operations وهنابدت برقمها عالشكوة.<div>وهنجدد المده.</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After ReEsclation After Sla"
+            }
+        ],
+        "SEC_1794615735155": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "الشكوة موجوده في القسم المختص وجاري العمل علي اصلاح العطل خلال خمس ايام عمل."
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up Within Sla"
+            }
+        ],
+        "SEC_1794615736083": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "هنعمل IR Delay&nbsp; لل Installation Operations وهنابدت برقمها عالشكوة.<div>وهنجدد المده.</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After Sla"
+            }
+        ],
+        "SEC_1794615770147": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "الشكوة موجوده في القسم المختص وجاري العمل علي اصلاح العطل خلال خمس ايام عمل."
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
+            },
+            {
+                "type": "step",
+                "num": "٣",
+                "text": "هنعمل SR Follow Up After ReEsclation Within Sla"
+            }
+        ],
+        "SEC_1794615770798": [
+            {
+                "type": "step",
+                "num": "١",
+                "text": "هنعمل IR Delay&nbsp; لل Installation Operations وهنابدت برقمها عالشكوة.<div>وهنجدد المده.</div>"
+            },
+            {
+                "type": "step",
+                "num": "٢",
+                "text": "<div>لو عدت ٢٤ ساعه من وقت اول التصعيد&nbsp;</div>هنعرض تعويض ٠١٥ حسب باقتة.<div>---------<br><div>&nbsp;لو خلال ٢٤ ساعه والشكوه physical instability او BLQ.&nbsp;</div><div>او Voice down وعليها بمشكله في النت ٣ جيجا لمده يومين</div></div>"
             },
             {
                 "type": "step",
@@ -1381,7 +1665,31 @@ const ttsData = {
         "SEC_1794582966856": "📋 الخطوات المطلوبة:",
         "SEC_1794582980164": "📋 الخطوات المطلوبة:",
         "SEC_1794583086456": "📋 الخطوات المطلوبة:",
-        "SEC_1794583113335": "📋 الخطوات المطلوبة:"
+        "SEC_1794583113335": "📋 الخطوات المطلوبة:",
+        "SEC_1794613340643": false,
+        "SEC_1794613341735": false,
+        "SEC_1794613416448": false,
+        "SEC_1794613458241": "<font color=\"#facc15\">ال SLA : خمس ايام عمل</font>",
+        "SEC_1794613511555": "📋 الخطوات المطلوبة:",
+        "SEC_1794613512255": "📋 الخطوات المطلوبة:",
+        "SEC_1794613592847": "📋 الخطوات المطلوبة:",
+        "SEC_1794613594303": "📋 الخطوات المطلوبة:",
+        "SEC_1794613635511": "📋 الخطوات المطلوبة:",
+        "SEC_1794613636337": "📋 الخطوات المطلوبة:",
+        "SEC_1794614404992": "<span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\">هنشوف الشكوه متصعده كام مره&nbsp;</span></span>",
+        "SEC_1794614405738": "<span style=\"font-size: 16px;\"><span style=\"color: rgb(250, 204, 21);\">هنشوف الشكوه متصعده كام مره&nbsp;</span></span>",
+        "SEC_1794614438145": "<span style=\"color: rgb(250, 204, 21);\">ال SLA: يومين عمل</span>",
+        "SEC_1794614438805": "<span style=\"color: rgb(250, 204, 21);\">ال SLA: يومين عمل</span>",
+        "SEC_1794614503492": "<span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\">ال SLA : خمس ايام عمل</span></span>",
+        "SEC_1794614504098": "<span style=\"color: rgb(250, 204, 21);\"><span style=\"font-size: 16px;\">ال SLA : خمس ايام عمل</span></span>",
+        "SEC_1794614865795": "📋 الخطوات المطلوبة:",
+        "SEC_1794614871738": "📋 الخطوات المطلوبة:",
+        "SEC_1794615135068": "📋 الخطوات المطلوبة:",
+        "SEC_1794615135801": "📋 الخطوات المطلوبة:",
+        "SEC_1794615735155": "📋 الخطوات المطلوبة:",
+        "SEC_1794615736083": "📋 الخطوات المطلوبة:",
+        "SEC_1794615770147": "📋 الخطوات المطلوبة:",
+        "SEC_1794615770798": "📋 الخطوات المطلوبة:"
     },
     "decisions": {
         "ADV_TIME_IN": {
